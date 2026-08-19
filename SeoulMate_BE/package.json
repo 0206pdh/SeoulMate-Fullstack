@@ -20,6 +20,7 @@
     "benchmark:direct": "npm run build && node scripts/benchmarkRecommendationDirect.mjs",
     "benchmark:performance": "npm run build && node scripts/benchmarkRecommendationPerformance.mjs",
     "benchmark:explain": "npm run build && node scripts/explainRecommendationCandidates.mjs",
+    "benchmark:diversity": "npm run build && node scripts/benchmarkCourseDiversity.mjs",
     "benchmark:db:setup": "powershell -ExecutionPolicy Bypass -File scripts/setupLocalBenchmarkDb.ps1",
     "test": "npm run build && node --test tests/quantitative.test.mjs",
     "prepare": "node scripts/setupHusky.mjs",

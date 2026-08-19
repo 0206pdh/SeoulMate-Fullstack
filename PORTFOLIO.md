@@ -313,13 +313,15 @@ pod orchestration 자체가 현재 문제는 아니었다. 서버 한 대의 서
 
 ## 정량 검증
 
-2026-08-19 기준 TypeScript 전체 build가 성공했고, 장소 수 경계값·category role 변환·KST 시간 분기·공공데이터/Kakao category 정규화·거리 fallback·scoring·회원가입 validation·지역 alias·코스 시간 상한·구조화 입력 parsing 생략을 다루는 **37개 테스트가 모두 통과했다(37/37, 100%)**. ESLint는 error 0건이다.
+2026-08-20 기준 TypeScript 전체 build가 성공했고, 장소 수 경계값·category role 변환·KST 시간 분기·공공데이터/Kakao category 정규화·거리 fallback·scoring·회원가입 validation·지역 alias·코스 시간 상한·구조화 입력 parsing 생략·variant 구성·MMR 유사도를 다루는 **39개 테스트가 모두 통과했다(39/39, 100%)**. ESLint는 error 0건이다.
 
 운영 서버와 분리된 PostgreSQL 16 컨테이너에 9개 공공데이터셋의 장소 172,821건을 적재하고, HTTP와 인증 계층을 거치지 않고 compiled LangGraph를 직접 호출하는 benchmark를 만들었다. 노드별 계측 결과를 바탕으로 구조화 입력의 중복 LLM parsing 제거, 독립 context I/O 병렬화, 충분한 후보 확보 시 보강 SQL 생략, 후보 검색 인덱스를 적용했다. warm-up 5회 후 동일 조건 40회 비교에서 평균 latency를 **1,639.13ms → 1,193.39ms(27.19% 감소)**, p95를 **2,389.70ms → 1,292.67ms(45.91% 감소)**, 순차 처리량을 **0.610 → 0.838 req/s(37.38% 증가)**로 개선했다.
 
 이후 요청 시점의 다중 `ILIKE OR`와 `metadata::text` 검색을 제거하기 위해 `district_name`, `district_code`, `region_search_text`, `search_text`를 적재 trigger로 관리하도록 DB를 정규화했다. 자치구 exact match 후 데이터셋별 LATERAL quota로 ID만 선별하고 선택된 ID의 상세 행만 hydrate하는 단일 SQL로 변경했다. 대표 성수/성동구 `EXPLAIN ANALYZE BUFFERS`에서 SQL 수는 10개에서 1개, plan scan tuple은 450,286에서 11,206으로 **97.51%**, DB 실행시간은 301.32ms에서 13.18ms로 **95.63%** 감소했다. 후보 조회 node의 40회 평균도 53.81ms에서 16.32ms로 **69.67%** 감소했다.
 
 정규화율은 자치구 99.93%, 검색 문서 100%였으며 단일 대표 쿼리에서 6개 데이터셋을 확보했다. 최적화 후 서울 20개 지역 재검증에서도 **20/20 성공**, validation·예산·시간·DB 실재성·추천 좌표·지역 alias 일치율 **각 100%**를 유지했다.
+
+후보 데이터셋 다양성이 최종 코스 다양성을 자동으로 보장하지 않는 문제도 별도로 측정했다. 기존 전역 장소 제외 방식은 중복은 없지만 평균 2.9개 variant만 반환했다. 역할·데이터셋·가격대·실내외·거리 유사도를 사용하는 MMR, variant별 목적함수, 코스 쌍별 Jaccard 제한으로 변경해 평균 variant를 **2.9개에서 3.9개로 34.48% 증가**시켰다. 10개 지역 중 9개가 4개 variant를 반환했고, 평균 category entropy는 **1.6552에서 1.6928로 2.27% 증가**했다. 전체 고유 장소 비율 98.33%, 평균 코스 간 Jaccard 0.0111로 낮은 중복을 유지했다.
 
 이 측정은 로컬 DB·외부 provider fallback 환경의 추천 graph 품질과 실행시간을 검증한 결과이며, Nginx·Express·네트워크·실제 외부 API 지연을 포함하는 운영 HTTP E2E 수치는 아니다. 운영 인프라 복구 후에는 별도 E2E runner로 같은 제약조건과 end-to-end latency를 측정할 수 있다. 결과 원본과 재현 절차는 [정량 검증 문서](SeoulMate_BE/docs/BENCHMARK.md)에 정리했다.
 

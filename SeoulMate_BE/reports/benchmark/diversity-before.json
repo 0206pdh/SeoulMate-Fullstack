@@ -1,0 +1,124 @@
+{
+  "summary": {
+    "label": "diversity-before",
+    "measuredAt": "2026-08-19T15:08:21.168Z",
+    "scenarioCount": 10,
+    "averageVariantCount": 2.9,
+    "averageUniquePlaceRatioPct": 100,
+    "averagePairwiseJaccard": 0,
+    "averageCategoryEntropy": 1.6552,
+    "averageCategoryCount": 3.5
+  },
+  "results": [
+    {
+      "region": "성수",
+      "variantCount": 3,
+      "variantTypes": ["mood-quiet", "mood-emotional", "best"],
+      "totalPlacements": 9,
+      "uniquePlaceCount": 9,
+      "uniquePlaceRatio": 1,
+      "meanPairwiseJaccard": 0,
+      "categoryEntropy": 1.974937501201927,
+      "categoryCount": 4
+    },
+    {
+      "region": "홍대",
+      "variantCount": 3,
+      "variantTypes": ["mood-hip", "mood-lively", "best"],
+      "totalPlacements": 9,
+      "uniquePlaceCount": 9,
+      "uniquePlaceRatio": 1,
+      "meanPairwiseJaccard": 0,
+      "categoryEntropy": 1.8910611120726526,
+      "categoryCount": 4
+    },
+    {
+      "region": "강남",
+      "variantCount": 3,
+      "variantTypes": ["mood-romantic", "mood-modern", "best"],
+      "totalPlacements": 7,
+      "uniquePlaceCount": 7,
+      "uniquePlaceRatio": 1,
+      "meanPairwiseJaccard": 0,
+      "categoryEntropy": 1.8423709931771088,
+      "categoryCount": 4
+    },
+    {
+      "region": "종로",
+      "variantCount": 3,
+      "variantTypes": ["mood-quiet", "mood-calm", "best"],
+      "totalPlacements": 6,
+      "uniquePlaceCount": 6,
+      "uniquePlaceRatio": 1,
+      "meanPairwiseJaccard": 0,
+      "categoryEntropy": 1,
+      "categoryCount": 2
+    },
+    {
+      "region": "망원",
+      "variantCount": 2,
+      "variantTypes": ["mood-emotional", "mood-nature"],
+      "totalPlacements": 4,
+      "uniquePlaceCount": 4,
+      "uniquePlaceRatio": 1,
+      "meanPairwiseJaccard": 0,
+      "categoryEntropy": 1,
+      "categoryCount": 2
+    },
+    {
+      "region": "명동",
+      "variantCount": 3,
+      "variantTypes": ["mood-lively", "mood-modern", "best"],
+      "totalPlacements": 9,
+      "uniquePlaceCount": 9,
+      "uniquePlaceRatio": 1,
+      "meanPairwiseJaccard": 0,
+      "categoryEntropy": 1.8910611120726526,
+      "categoryCount": 4
+    },
+    {
+      "region": "여의도",
+      "variantCount": 3,
+      "variantTypes": ["mood-romantic", "mood-nature", "best"],
+      "totalPlacements": 8,
+      "uniquePlaceCount": 8,
+      "uniquePlaceRatio": 1,
+      "meanPairwiseJaccard": 0,
+      "categoryEntropy": 2.5,
+      "categoryCount": 6
+    },
+    {
+      "region": "혜화",
+      "variantCount": 3,
+      "variantTypes": ["mood-quiet", "mood-emotional", "best"],
+      "totalPlacements": 9,
+      "uniquePlaceCount": 9,
+      "uniquePlaceRatio": 1,
+      "meanPairwiseJaccard": 0,
+      "categoryEntropy": 1.8910611120726526,
+      "categoryCount": 4
+    },
+    {
+      "region": "서울숲",
+      "variantCount": 3,
+      "variantTypes": ["mood-hip", "mood-nature", "best"],
+      "totalPlacements": 8,
+      "uniquePlaceCount": 8,
+      "uniquePlaceRatio": 1,
+      "meanPairwiseJaccard": 0,
+      "categoryEntropy": 1.561278124459133,
+      "categoryCount": 3
+    },
+    {
+      "region": "DDP",
+      "variantCount": 3,
+      "variantTypes": ["mood-modern", "mood-emotional", "best"],
+      "totalPlacements": 6,
+      "uniquePlaceCount": 6,
+      "uniquePlaceRatio": 1,
+      "meanPairwiseJaccard": 0,
+      "categoryEntropy": 1,
+      "categoryCount": 2
+    }
+  ]
+}

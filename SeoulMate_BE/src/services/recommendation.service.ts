@@ -510,7 +510,7 @@ const MOOD_VARIANT_BY_MOOD: Record<string, RecommendationType> = {
   자연친화적: "mood-nature"
 };
 
-const buildRecommendationVariants = (moods: string[] = []): RecommendationVariant[] => {
+export const buildRecommendationVariants = (moods: string[] = []): RecommendationVariant[] => {
   if (!moods.length) {
     return [{ type: "best" }, { type: "balanced" }, { type: "indoor" }, { type: "low-budget" }];
   }
@@ -526,7 +526,18 @@ const buildRecommendationVariants = (moods: string[] = []): RecommendationVarian
     ...new Map(moodVariants.map((variant) => [variant.type, variant])).values()
   ];
 
-  return [...uniqueMoodVariants, { type: "best" as const }].slice(0, 4);
+  return [
+    ...uniqueMoodVariants,
+    { type: "best" as const },
+    { type: "balanced" as const },
+    { type: "indoor" as const },
+    { type: "low-budget" as const }
+  ]
+    .filter(
+      (variant, index, variants) =>
+        variants.findIndex((candidate) => candidate.type === variant.type) === index
+    )
+    .slice(0, 4);
 };
 
 const uniqueStringArray = (items: string[]): string[] => [...new Set(items.filter(Boolean))];
@@ -666,6 +677,34 @@ const normalizeVariantPlaceTitle = (title: string): string =>
     .toLowerCase()
     .replace(/\([^)]*\)/g, "")
     .replace(/[^가-힣a-z0-9]/g, "");
+
+const variantPriceBucket = (place: CandidatePlace): string => {
+  const cost = estimateVariantCost(place);
+  if (cost === 0) return "free";
+  if (cost <= 10000) return "low";
+  if (cost <= 20000) return "medium";
+  return "high";
+};
+
+export const semanticPlaceSimilarity = (left: CandidatePlace, right: CandidatePlace): number => {
+  if (left.id === right.id) return 1;
+  let similarity = 0;
+  if (inferVariantRole(left) === inferVariantRole(right)) similarity += 0.35;
+  if (left.sourceDataset && left.sourceDataset === right.sourceDataset) similarity += 0.15;
+  if (variantPriceBucket(left) === variantPriceBucket(right)) similarity += 0.15;
+  if (isIndoorVariantPlace(left) === isIndoorVariantPlace(right)) similarity += 0.15;
+
+  if (hasCoordinate(left) && hasCoordinate(right)) {
+    const distance = mapClient.calculateDistanceMeter(
+      { latitude: left.latitude as number, longitude: left.longitude as number },
+      { latitude: right.latitude as number, longitude: right.longitude as number }
+    );
+    if (distance <= 500) similarity += 0.2;
+    else if (distance <= 1200) similarity += 0.1;
+  }
+
+  return Math.min(1, similarity);
+};
 
 const inferVariantRole = (place: CandidatePlace): CourseRole => {
   if (place.placeFamily) {
@@ -901,7 +940,13 @@ const selectVariantPlace = (
   remainingBudget?: number,
   previousPlace?: CandidatePlace,
   preferNearest = false,
-  options: { strictIndoor?: boolean; mood?: string } = {}
+  options: {
+    strictIndoor?: boolean;
+    mood?: string;
+    variant?: RecommendationType;
+    selectedPlaces?: CandidatePlace[];
+    globallyUsedPlaceIds?: Set<number>;
+  } = {}
 ): CandidatePlace | undefined => {
   const available = pool.filter(
     (place) =>
@@ -916,31 +961,37 @@ const selectVariantPlace = (
     ? available.filter((place) => moodAffinityScore(place, options.mood) > 0)
     : [];
   const rawPool = matched.length ? matched : moodMatched.length ? moodMatched : available;
-  const sortedPool =
-    preferNearest && previousPlace && hasCoordinate(previousPlace)
-      ? [...rawPool].sort((left, right) => {
-          const leftDistance = hasCoordinate(left)
-            ? mapClient.calculateDistanceMeter(
-                {
-                  latitude: previousPlace.latitude as number,
-                  longitude: previousPlace.longitude as number
-                },
-                { latitude: left.latitude as number, longitude: left.longitude as number }
-              )
-            : Number.POSITIVE_INFINITY;
-          const rightDistance = hasCoordinate(right)
-            ? mapClient.calculateDistanceMeter(
-                {
-                  latitude: previousPlace.latitude as number,
-                  longitude: previousPlace.longitude as number
-                },
-                { latitude: right.latitude as number, longitude: right.longitude as number }
-              )
-            : Number.POSITIVE_INFINITY;
+  const selectedPlaces = options.selectedPlaces ?? [];
+  const lambda = options.variant === "best" ? 0.78 : options.variant === "balanced" ? 0.52 : 0.64;
+  const sortedPool = [...rawPool].sort((left, right) => {
+    const mmr = (place: CandidatePlace): number => {
+      const relevanceIndex = rawPool.findIndex((candidate) => candidate.id === place.id);
+      const relevance = 1 - relevanceIndex / Math.max(rawPool.length - 1, 1);
+      const maxSimilarity = selectedPlaces.length
+        ? Math.max(...selectedPlaces.map((selected) => semanticPlaceSimilarity(place, selected)))
+        : 0;
+      let objectiveBonus = 0;
+      if (options.variant === "indoor" && isIndoorVariantPlace(place)) objectiveBonus += 0.15;
+      if (options.variant === "low-budget") {
+        objectiveBonus += Math.max(0, 1 - estimateVariantCost(place) / 30000) * 0.15;
+      }
+      if (options.mood) objectiveBonus += moodAffinityScore(place, options.mood) * 0.05;
+      if (options.globallyUsedPlaceIds?.has(place.id)) objectiveBonus -= 0.4;
+      if (preferNearest && previousPlace && hasCoordinate(previousPlace) && hasCoordinate(place)) {
+        const distance = mapClient.calculateDistanceMeter(
+          {
+            latitude: previousPlace.latitude as number,
+            longitude: previousPlace.longitude as number
+          },
+          { latitude: place.latitude as number, longitude: place.longitude as number }
+        );
+        objectiveBonus += Math.max(0, 1 - distance / 3000) * 0.12;
+      }
+      return lambda * relevance - (1 - lambda) * maxSimilarity + objectiveBonus;
+    };
 
-          return leftDistance - rightDistance;
-        })
-      : rawPool;
+    return mmr(right) - mmr(left);
+  });
 
   return sortedPool.find(hasCoordinate) ?? sortedPool[0];
 };
@@ -1053,7 +1104,13 @@ const buildCourseVariant = async (
       requestedRoles.includes(role) ? undefined : remainingBudget,
       selected[selected.length - 1]?.place,
       type === "short-walk" || type === "balanced",
-      { strictIndoor: type === "indoor", mood }
+      {
+        strictIndoor: type === "indoor",
+        mood,
+        variant: type,
+        selectedPlaces: selected.map((item) => item.place),
+        globallyUsedPlaceIds: excludedPlaceIds
+      }
     );
 
     if (!place) {
@@ -1109,6 +1166,39 @@ const buildCourseVariant = async (
       Math.max(coursePlaces.length, 1),
     estimatedBudget: coursePlaces.reduce((sum, place) => sum + (place.estimatedCost ?? 0), 0)
   };
+};
+
+export const buildCourseVariantsForBenchmark = async (
+  state: SeoulMateGraphState
+): Promise<BuiltCourseVariant[]> => {
+  const recommendationVariants = buildRecommendationVariants(state.parsedRequest?.mood);
+  const builtVariants: BuiltCourseVariant[] = [];
+  const seenSignatures = new Set<string>();
+  const globallyUsedPlaceIds = new Set<number>();
+
+  for (const variant of recommendationVariants) {
+    const course = await buildCourseVariant(state, variant, globallyUsedPlaceIds);
+    if (!course?.places.length) continue;
+
+    const placeIds = course.places.map((place) => place.placeId);
+    const placeIdSet = new Set(placeIds);
+    const overlapsExistingCourse = builtVariants.some((built) => {
+      const existingIds = new Set(built.course.places.map((place) => place.placeId));
+      const intersection = [...placeIdSet].filter((placeId) => existingIds.has(placeId)).length;
+      const union = new Set([...placeIdSet, ...existingIds]).size;
+      return union > 0 && intersection / union >= 0.5;
+    });
+    if (overlapsExistingCourse) continue;
+
+    const signature = [...placeIds].sort((left, right) => left - right).join("|");
+    if (signature && !seenSignatures.has(signature)) {
+      seenSignatures.add(signature);
+      placeIds.forEach((placeId) => globallyUsedPlaceIds.add(placeId));
+      builtVariants.push({ type: variant.type, course });
+    }
+  }
+
+  return builtVariants;
 };
 
 const fallbackVariantExplanation = (
@@ -1382,31 +1472,7 @@ export const recommendationService = {
   ): Promise<RecommendCoursesResponse> {
     const graphInput = buildStructuredRecommendationInput(payload);
     const state = await runRecommendationGraphForApi(graphInput.rawInput, graphInput.parsedRequest);
-    const recommendationVariants = buildRecommendationVariants(state.parsedRequest?.mood);
-    const builtVariants: BuiltCourseVariant[] = [];
-    const seenSignatures = new Set<string>();
-    const globallyUsedPlaceIds = new Set<number>();
-
-    for (const variant of recommendationVariants) {
-      const course = await buildCourseVariant(state, variant, globallyUsedPlaceIds);
-      if (!course?.places.length) {
-        continue;
-      }
-
-      const placeIds = course.places.map((place) => place.placeId);
-      const duplicateCount = placeIds.filter((placeId) => globallyUsedPlaceIds.has(placeId)).length;
-      if (builtVariants.length && duplicateCount / Math.max(placeIds.length, 1) >= 0.5) {
-        continue;
-      }
-
-      const signature = placeIds.sort((left, right) => left - right).join("|");
-
-      if (signature && !seenSignatures.has(signature)) {
-        seenSignatures.add(signature);
-        placeIds.forEach((placeId) => globallyUsedPlaceIds.add(placeId));
-        builtVariants.push({ type: variant.type, course });
-      }
-    }
+    const builtVariants = await buildCourseVariantsForBenchmark(state);
 
     const explainedVariants = await attachBatchExplanations(state, builtVariants);
     const savedVariants = await Promise.all(

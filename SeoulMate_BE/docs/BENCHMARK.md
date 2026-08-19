@@ -7,7 +7,7 @@
 | 검증                   |                  결과 | 측정 범위                          |
 | ---------------------- | --------------------: | ---------------------------------- |
 | TypeScript compilation |                  성공 | 전체 backend source                |
-| 결정론적 자동 테스트   | **37/37 통과 (100%)** | 추천 규칙, validation, 인증 입력   |
+| 결정론적 자동 테스트   | **39/39 통과 (100%)** | 추천 규칙, validation, 인증 입력   |
 | ESLint                 |             error 0건 | 기존 unused warning 4건 제외       |
 | Direct LangGraph       | **20/20 성공 (100%)** | 로컬 PostgreSQL, provider fallback |
 | validation 통과율      |              **100%** | 최종 코스 validator                |
@@ -90,7 +90,7 @@ docker compose -f docker-compose.benchmark.yml stop
 npm test
 ```
 
-TypeScript compile 후 Node.js test runner가 다음 37개 조건을 검증한다.
+TypeScript compile 후 Node.js test runner가 다음 39개 조건을 검증한다.
 
 - 2~13시간 요청별 장소 수 경계
 - category → course role 변환과 중복 제거
@@ -101,6 +101,8 @@ TypeScript compile 후 Node.js test runner가 다음 37개 조건을 검증한�
 - 회원가입 정규화와 validation
 - 지역 alias 검증과 요청 시간 초과 거부
 - 완전한 구조화 입력의 외부 LLM parsing 생략
+- mood 입력의 4개 목적 variant 구성
+- 역할·데이터셋 기반 MMR 의미 유사도
 
 ## 운영 HTTP E2E
 

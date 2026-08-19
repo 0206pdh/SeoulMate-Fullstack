@@ -17,6 +17,10 @@ import {
 import { validateSignupRequest } from "../dist/validators/user.validator.js";
 import { validateRecommendationNode } from "../dist/graphs/nodes/validateRecommendation.node.js";
 import { parseUserRequestNode } from "../dist/graphs/nodes/parseUserRequest.node.js";
+import {
+  buildRecommendationVariants,
+  semanticPlaceSimilarity
+} from "../dist/services/recommendation.service.js";
 
 const placeCountCases = [
   [2, { min: 1, max: 2 }],
@@ -234,4 +238,35 @@ test("완전한 구조화 입력은 외부 LLM 없이 즉시 병합한다", asyn
   assert.equal(result.parsedRequest?.region, "성수");
   assert.equal(result.parsedRequest?.budget, 30000);
   assert.ok(performance.now() - startedAt < 100);
+});
+
+test("분위기 요청이 있어도 목적이 다른 4개 variant를 구성한다", () => {
+  const variants = buildRecommendationVariants(["조용한", "감성적인"]);
+  assert.equal(variants.length, 4);
+  assert.deepEqual(
+    variants.map((variant) => variant.type),
+    ["mood-quiet", "mood-emotional", "best", "balanced"]
+  );
+});
+
+test("MMR 유사도는 같은 역할과 데이터셋의 장소에 더 높은 값을 준다", () => {
+  const cafe = {
+    id: 1,
+    title: "카페 A",
+    category: "카페",
+    placeFamily: "cafe",
+    sourceDataset: "cafes",
+    estimatedCost: 9000
+  };
+  const similarCafe = { ...cafe, id: 2, title: "카페 B" };
+  const park = {
+    id: 3,
+    title: "공원",
+    category: "공원",
+    placeFamily: "nature",
+    sourceDataset: "parks",
+    estimatedCost: 0
+  };
+
+  assert.ok(semanticPlaceSimilarity(cafe, similarCafe) > semanticPlaceSimilarity(cafe, park));
 });

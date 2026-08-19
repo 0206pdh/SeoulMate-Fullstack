@@ -481,7 +481,7 @@ best, balanced, indoor, low-budget
 
 ### mood variant
 
-mood가 있으면 mood variant를 우선 생성하고 `best`를 마지막에 붙인다. 최대 4개.
+mood가 있으면 mood variant를 우선 생성한 뒤 `best`, `balanced`, `indoor`, `low-budget`으로 최대 4개를 채운다. 따라서 분위기 조건이 있어도 목적이 다른 대안 코스를 함께 제공한다.
 
 | mood       | recommendationType |
 | ---------- | ------------------ |
@@ -500,13 +500,15 @@ mood가 있으면 mood variant를 우선 생성하고 `best`를 마지막에 붙
 | variant      | 동작                                             |
 | ------------ | ------------------------------------------------ |
 | `best`       | 기본 점수 기준 최적 코스                         |
-| `balanced`   | 이전 장소에서 가까운 후보 우선 선택              |
+| `balanced`   | 의미적 novelty를 높이고 가까운 동선에 bonus 적용 |
 | `indoor`     | 실내 장소만 허용 (야외 제외)                     |
 | `low-budget` | 예산의 85% 이내로 제한하고 저비용 순 정렬        |
 | `short-walk` | `balanced`와 동일하게 이동 거리 최소화 우선 선택 |
 | `mood-*`     | mood affinity 점수 우선 정렬 + 해당 분위기 필터  |
 
-variant끼리 장소 중복이 50% 이상이면 해당 variant는 건너뛴다.
+장소 선택은 추천 적합도와 역할·데이터셋·가격대·실내외·거리 비유사도를 결합한 MMR을 사용한다. `best`는 적합도 비중을 높게, `balanced`는 novelty 비중을 높게 둔다. 후보가 부족해 이미 노출한 장소를 재사용할 때는 penalty를 적용한다.
+
+variant 중복은 과거 모든 장소와의 단순 중복 합계가 아니라 코스 쌍별 Jaccard로 검증한다. 어느 기존 코스와든 Jaccard가 0.5 이상이면 해당 variant를 건너뛴다. 상세 수식과 실측값은 [코스 다양성 문서](DIVERSITY.md)에 정리했다.
 
 ### 비용 기본값 (role별)
 
