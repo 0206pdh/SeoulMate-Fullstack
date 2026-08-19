@@ -489,6 +489,19 @@ export const parseUserRequestNode = async (
   const fallback = parseHeuristically(state.rawInput);
   const preset = state.parsedRequest;
   const hasPresetDateTime = Boolean(preset?.dateTime);
+  const hasCompleteStructuredPreset = Boolean(
+    preset?.region &&
+    preset.budget !== undefined &&
+    preset.durationHours !== undefined &&
+    preset.mood?.length &&
+    preset.purpose
+  );
+
+  if (hasCompleteStructuredPreset) {
+    return {
+      parsedRequest: mergeParsedRequest(fallback, {}, preset)
+    };
+  }
 
   try {
     const parsed = await openaiClient.createJsonResponse<ParsedRequestFromAi>({

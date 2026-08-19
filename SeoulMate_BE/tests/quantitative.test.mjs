@@ -16,6 +16,7 @@ import {
 } from "../dist/utils/publicDataCategory.js";
 import { validateSignupRequest } from "../dist/validators/user.validator.js";
 import { validateRecommendationNode } from "../dist/graphs/nodes/validateRecommendation.node.js";
+import { parseUserRequestNode } from "../dist/graphs/nodes/parseUserRequest.node.js";
 
 const placeCountCases = [
   [2, { min: 1, max: 2 }],
@@ -213,4 +214,24 @@ test("체류시간과 이동시간의 합이 요청 시간을 초과하면 거�
   });
   assert.equal(result.validation?.isValid, false);
   assert.match(result.validation?.errors[0] ?? "", /요청 시간을 초과/);
+});
+
+test("완전한 구조화 입력은 외부 LLM 없이 즉시 병합한다", async () => {
+  const startedAt = performance.now();
+  const result = await parseUserRequestNode({
+    rawInput: "성수에서 30000원 이하 첫 데이트",
+    parsedRequest: {
+      region: "성수",
+      budget: 30000,
+      durationHours: 4,
+      mood: ["조용한"],
+      purpose: "첫 데이트"
+    },
+    warnings: [],
+    errors: []
+  });
+
+  assert.equal(result.parsedRequest?.region, "성수");
+  assert.equal(result.parsedRequest?.budget, 30000);
+  assert.ok(performance.now() - startedAt < 100);
 });

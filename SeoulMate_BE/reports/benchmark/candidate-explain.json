@@ -1,0 +1,26 @@
+{
+  "measuredAt": "2026-08-19T14:39:50.404Z",
+  "representativeRegion": "성수 / 성동구",
+  "method": "EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)",
+  "before": {
+    "queryCount": 10,
+    "executionTimeMs": 304.70799999999997,
+    "rowsVisited": 449789,
+    "sharedHitBlocks": 39867,
+    "sharedReadBlocks": 63418
+  },
+  "after": {
+    "queryCount": 1,
+    "planningTimeMs": 3.653,
+    "executionTimeMs": 121.189,
+    "rowsVisited": 172821,
+    "sharedHitBlocks": 15526,
+    "sharedReadBlocks": 30879
+  },
+  "improvement": {
+    "queryCountReductionPct": 90,
+    "executionTimeReductionPct": 60.23,
+    "rowsVisitedReductionPct": 61.58,
+    "sharedHitBlocksReductionPct": 61.06
+  }
+}

@@ -100,12 +100,14 @@ npm run benchmark:db:setup
 npm run benchmark:direct
 ```
 
-- 결정론적 추천 규칙 자동 테스트: **36/36 통과**
+- 결정론적 추천 규칙 자동 테스트: **37/37 통과**
 - TypeScript build: 성공
 - ESLint: error 0건
 - 서버 없는 Direct LangGraph benchmark: **20/20 성공**, validation·예산·시간·DB 실재성·추천 좌표·지역 alias 일치율 **모두 100%**
 - 로컬 PostgreSQL 데이터: **172,821개 장소 / 9개 데이터셋**, category 정규화율 **100%**, 좌표 보유율 **98.84%**
-- provider-fallback 처리시간: 평균 **1,774ms**, p50 **1,569ms**, p95 **2,930ms** (2026-08-19, 로컬 단일 실행)
+- 최적화 후 20개 시나리오 처리시간: 평균 **1,245ms**, p50 **1,215ms**, p95 **1,415ms**
+- warm-up 5회 + 동일 조건 40회 전후 비교: 평균 latency **27.19% 감소**, p95 **45.91% 감소**, 순차 처리량 **37.38% 증가**
+- 대표 후보 조회의 SQL 10→1개, plan scan tuple **61.58% 감소** (`EXPLAIN ANALYZE BUFFERS`)
 - 재현 가능한 원본 결과: [`direct-local.json`](SeoulMate_BE/reports/benchmark/direct-local.json), [`direct-local.md`](SeoulMate_BE/reports/benchmark/direct-local.md)
 
 지표 계산식과 실행 조건은 [정량 검증 문서](SeoulMate_BE/docs/BENCHMARK.md)를 참고하세요.
@@ -195,6 +197,7 @@ push(main)
 | [Portfolio](PORTFOLIO.md)                                          | 문제 정의, 기여, LangGraph와 인프라 설계 |
 | [Infrastructure](SeoulMate_BE/docs/INFRASTRUCTURE.md)              | AWS 네트워크, Nginx, PM2, RDS, CI/CD     |
 | [Benchmark](SeoulMate_BE/docs/BENCHMARK.md)                        | 자동 테스트와 E2E 정량 평가              |
+| [Performance](SeoulMate_BE/docs/PERFORMANCE.md)                    | 노드·SQL 병목과 최적화 전후 실측         |
 | [AI Recommendation](SeoulMate_BE/docs/AI_COURSE_RECOMMENDATION.md) | 추천 graph, scoring, variant, fallback   |
 | [API](SeoulMate_BE/docs/API.md)                                    | API endpoint와 request/response          |
 | [Database](SeoulMate_BE/docs/DATABASE.md)                          | PostgreSQL schema와 table 역할           |

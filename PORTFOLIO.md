@@ -313,9 +313,11 @@ pod orchestration 자체가 현재 문제는 아니었다. 서버 한 대의 서
 
 ## 정량 검증
 
-2026-08-19 기준 TypeScript 전체 build가 성공했고, 장소 수 경계값·category role 변환·KST 시간 분기·공공데이터/Kakao category 정규화·거리 fallback·scoring·회원가입 validation·지역 alias·코스 시간 상한을 다루는 **36개 테스트가 모두 통과했다(36/36, 100%)**. ESLint는 error 0건이다.
+2026-08-19 기준 TypeScript 전체 build가 성공했고, 장소 수 경계값·category role 변환·KST 시간 분기·공공데이터/Kakao category 정규화·거리 fallback·scoring·회원가입 validation·지역 alias·코스 시간 상한·구조화 입력 parsing 생략을 다루는 **37개 테스트가 모두 통과했다(37/37, 100%)**. ESLint는 error 0건이다.
 
-운영 서버와 분리된 PostgreSQL 16 컨테이너에 9개 공공데이터셋의 장소 172,821건을 적재하고, HTTP와 인증 계층을 거치지 않고 compiled LangGraph를 직접 호출하는 benchmark를 만들었다. 서울 20개 지역 시나리오에서 **20/20 성공**, validation·예산·시간·DB 실재성·추천 좌표·지역 alias 일치율이 **각 100%**였다. 전체 데이터의 category 정규화율은 100%, 좌표 보유율은 98.84%였으며 provider key를 비운 fallback 조건의 처리시간은 평균 1,774ms, p50 1,569ms, p95 2,930ms였다.
+운영 서버와 분리된 PostgreSQL 16 컨테이너에 9개 공공데이터셋의 장소 172,821건을 적재하고, HTTP와 인증 계층을 거치지 않고 compiled LangGraph를 직접 호출하는 benchmark를 만들었다. 노드별 계측 결과를 바탕으로 구조화 입력의 중복 LLM parsing 제거, 독립 context I/O 병렬화, 충분한 후보 확보 시 보강 SQL 생략, 후보 검색 인덱스를 적용했다. warm-up 5회 후 동일 조건 40회 비교에서 평균 latency를 **1,639.13ms → 1,193.39ms(27.19% 감소)**, p95를 **2,389.70ms → 1,292.67ms(45.91% 감소)**, 순차 처리량을 **0.610 → 0.838 req/s(37.38% 증가)**로 개선했다.
+
+대표 성수/성동구 후보 조회의 `EXPLAIN ANALYZE BUFFERS`에서는 SQL 수가 10개에서 1개, plan scan tuple이 449,789에서 172,821로 61.58% 감소했다. 최적화 후 서울 20개 지역 재검증에서도 **20/20 성공**, validation·예산·시간·DB 실재성·추천 좌표·지역 alias 일치율 **각 100%**를 유지했다.
 
 이 측정은 로컬 DB·외부 provider fallback 환경의 추천 graph 품질과 실행시간을 검증한 결과이며, Nginx·Express·네트워크·실제 외부 API 지연을 포함하는 운영 HTTP E2E 수치는 아니다. 운영 인프라 복구 후에는 별도 E2E runner로 같은 제약조건과 end-to-end latency를 측정할 수 있다. 결과 원본과 재현 절차는 [정량 검증 문서](SeoulMate_BE/docs/BENCHMARK.md)에 정리했다.
 

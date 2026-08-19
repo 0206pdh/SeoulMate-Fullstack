@@ -809,22 +809,23 @@ export const fetchCandidatePlacesNode = async (
             pageSize: 80
           });
 
-    const diverseRegionalCandidates = hasRegionFilter
-      ? (
-          await Promise.all(
-            sourceDatasets.map((sourceDataset) =>
-              publicDataRepository.findRecommendationCandidates({
-                region: request?.region,
-                districts: regionResolution?.districts,
-                regionAliases: regionResolution?.aliases,
-                includeTitleRegionMatch: true,
-                sourceDatasets: [sourceDataset],
-                pageSize: 12
-              })
+    const diverseRegionalCandidates =
+      hasRegionFilter && primary.length < 40
+        ? (
+            await Promise.all(
+              sourceDatasets.map((sourceDataset) =>
+                publicDataRepository.findRecommendationCandidates({
+                  region: request?.region,
+                  districts: regionResolution?.districts,
+                  regionAliases: regionResolution?.aliases,
+                  includeTitleRegionMatch: true,
+                  sourceDatasets: [sourceDataset],
+                  pageSize: 12
+                })
+              )
             )
-          )
-        ).flat()
-      : [];
+          ).flat()
+        : [];
 
     const generalFallback =
       primary.length >= 8 || hasRegionFilter

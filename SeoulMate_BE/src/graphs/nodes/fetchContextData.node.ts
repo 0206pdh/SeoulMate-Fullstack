@@ -582,76 +582,90 @@ export const fetchContextDataNode = async (
   const referenceCoordinate = getReferenceCoordinate(state.parsedRequest?.region, candidatePlaces);
   const weatherSource = chooseWeatherSource(state.parsedRequest?.dateTime);
 
-  let cityData: RecommendationContextData["cityData"] | undefined;
-  try {
-    cityData = normalizeCityData(areaName, await seoulOpenDataClient.fetchCityData(areaName));
-  } catch (error) {
-    errors.push(`citydata unavailable: ${getErrorMessage(error)}`);
-  }
+  const cityDataPromise = (async (): Promise<RecommendationContextData["cityData"] | undefined> => {
+    try {
+      return normalizeCityData(areaName, await seoulOpenDataClient.fetchCityData(areaName));
+    } catch (error) {
+      errors.push(`citydata unavailable: ${getErrorMessage(error)}`);
+      return undefined;
+    }
+  })();
 
-  let weather: RecommendationContextData["weather"];
-  let livingPopulation: RecommendationContextData["livingPopulation"] | undefined;
+  const weatherPromise = (async (): Promise<RecommendationContextData["weather"]> => {
+    try {
+      if (weatherSource === "ultraShortTerm") {
+        logger.info("[fetchContextData] weatherSource: ultraShortTerm");
+        return summarizeUltraShortWeather(
+          await getUltraShortTermForecast(
+            referenceCoordinate.latitude,
+            referenceCoordinate.longitude
+          ),
+          state.parsedRequest?.dateTime
+        );
+      }
+      if (weatherSource === "shortTerm") {
+        logger.info("[fetchContextData] weatherSource: shortTerm");
+        return summarizeShortWeather(
+          await getShortTermForecast(referenceCoordinate.latitude, referenceCoordinate.longitude),
+          state.parsedRequest?.dateTime
+        );
+      }
+      if (weatherSource === "mediumTerm") {
+        logger.info("[fetchContextData] weatherSource: mediumTerm");
+        const medium = await getMediumTermForecast(state.parsedRequest?.dateTime);
+        return {
+          source: "mediumTerm",
+          targetDateTime: state.parsedRequest?.dateTime,
+          rainProbability: medium?.rainProbAm ?? medium?.rainProbPm ?? undefined,
+          skyStatus: medium?.weatherAm ?? medium?.weatherPm ?? undefined,
+          temperature:
+            typeof medium?.tempMin === "number" && typeof medium?.tempMax === "number"
+              ? Math.round((medium.tempMin + medium.tempMax) / 2)
+              : undefined
+        };
+      }
 
-  try {
-    if (weatherSource === "ultraShortTerm") {
-      logger.info("[fetchContextData] weatherSource: ultraShortTerm");
-      weather = summarizeUltraShortWeather(
-        await getUltraShortTermForecast(
-          referenceCoordinate.latitude,
-          referenceCoordinate.longitude
-        ),
-        state.parsedRequest?.dateTime
-      );
-    } else if (weatherSource === "shortTerm") {
-      logger.info("[fetchContextData] weatherSource: shortTerm");
-      weather = summarizeShortWeather(
-        await getShortTermForecast(referenceCoordinate.latitude, referenceCoordinate.longitude),
-        state.parsedRequest?.dateTime
-      );
-    } else if (weatherSource === "mediumTerm") {
-      logger.info("[fetchContextData] weatherSource: mediumTerm");
-      const medium = await getMediumTermForecast(state.parsedRequest?.dateTime);
-      weather = {
-        source: "mediumTerm",
-        targetDateTime: state.parsedRequest?.dateTime,
-        rainProbability: medium?.rainProbAm ?? medium?.rainProbPm ?? undefined,
-        skyStatus: medium?.weatherAm ?? medium?.weatherPm ?? undefined,
-        temperature:
-          typeof medium?.tempMin === "number" && typeof medium?.tempMax === "number"
-            ? Math.round((medium.tempMin + medium.tempMax) / 2)
-            : undefined
-      };
-    } else {
       logger.info("[fetchContextData] weatherSource: unavailable");
-      weather = {
+      return {
         source: "unavailable",
         targetDateTime: state.parsedRequest?.dateTime,
         weatherAlert: "요청 날짜가 11일 이후라 기상청 예보 제공 범위를 벗어납니다."
       };
+    } catch (error) {
+      errors.push(`weather unavailable: ${getErrorMessage(error)}`);
+      warnings.push(WEATHER_WARNING);
+      return {
+        source: weatherSource,
+        targetDateTime: state.parsedRequest?.dateTime
+      };
     }
-  } catch (error) {
-    errors.push(`weather unavailable: ${getErrorMessage(error)}`);
-    warnings.push(WEATHER_WARNING);
-    weather = {
-      source: weatherSource,
-      targetDateTime: state.parsedRequest?.dateTime
-    };
-  }
+  })();
 
-  try {
-    livingPopulation = await buildLivingPopulationContext(
-      state.parsedRequest?.region,
-      state.parsedRequest?.dateTime,
-      candidatePlaces
-    );
-
-    if (livingPopulation?.congestion === "unknown") {
+  const livingPopulationPromise = (async (): Promise<
+    RecommendationContextData["livingPopulation"] | undefined
+  > => {
+    try {
+      const livingPopulation = await buildLivingPopulationContext(
+        state.parsedRequest?.region,
+        state.parsedRequest?.dateTime,
+        candidatePlaces
+      );
+      if (livingPopulation?.congestion === "unknown") {
+        warnings.push(CONGESTION_WARNING);
+      }
+      return livingPopulation;
+    } catch (error) {
+      errors.push(`living population unavailable: ${getErrorMessage(error)}`);
       warnings.push(CONGESTION_WARNING);
+      return undefined;
     }
-  } catch (error) {
-    errors.push(`living population unavailable: ${getErrorMessage(error)}`);
-    warnings.push(CONGESTION_WARNING);
-  }
+  })();
+
+  const [cityData, weather, livingPopulation] = await Promise.all([
+    cityDataPromise,
+    weatherPromise,
+    livingPopulationPromise
+  ]);
 
   return {
     contextData: {

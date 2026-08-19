@@ -7,7 +7,7 @@
 | 검증                   |                  결과 | 측정 범위                          |
 | ---------------------- | --------------------: | ---------------------------------- |
 | TypeScript compilation |                  성공 | 전체 backend source                |
-| 결정론적 자동 테스트   | **36/36 통과 (100%)** | 추천 규칙, validation, 인증 입력   |
+| 결정론적 자동 테스트   | **37/37 통과 (100%)** | 추천 규칙, validation, 인증 입력   |
 | ESLint                 |             error 0건 | 기존 unused warning 4건 제외       |
 | Direct LangGraph       | **20/20 성공 (100%)** | 로컬 PostgreSQL, provider fallback |
 | validation 통과율      |              **100%** | 최종 코스 validator                |
@@ -15,7 +15,7 @@
 | DB 장소 실재성         |              **100%** | 추천 장소 ID와 `public_data` 대조  |
 | 추천 좌표 보유율       |              **100%** | 추천 결과의 위·경도                |
 | 지역 alias 일치율      |              **100%** | 동네명과 자치구 alias 포함         |
-| 처리시간               |      평균 **1,774ms** | p50 1,569ms, p95 2,930ms           |
+| 처리시간               |      평균 **1,245ms** | p50 1,215ms, p95 1,415ms           |
 
 로컬 DB에는 공공데이터 **172,821건 / 9개 데이터셋**을 적재했다. category 정규화율은 **100%**, 전체 장소 좌표 보유율은 **98.84%**다. 결과 원본은 [`direct-local.json`](../reports/benchmark/direct-local.json), 사람이 읽는 표는 [`direct-local.md`](../reports/benchmark/direct-local.md)에 보존한다.
 
@@ -90,7 +90,7 @@ docker compose -f docker-compose.benchmark.yml stop
 npm test
 ```
 
-TypeScript compile 후 Node.js test runner가 다음 36개 조건을 검증한다.
+TypeScript compile 후 Node.js test runner가 다음 37개 조건을 검증한다.
 
 - 2~13시간 요청별 장소 수 경계
 - category → course role 변환과 중복 제거
@@ -100,6 +100,7 @@ TypeScript compile 후 Node.js test runner가 다음 36개 조건을 검증한�
 - scoring 가중치 총합 100점
 - 회원가입 정규화와 validation
 - 지역 alias 검증과 요청 시간 초과 거부
+- 완전한 구조화 입력의 외부 LLM parsing 생략
 
 ## 운영 HTTP E2E
 
@@ -108,7 +109,7 @@ $env:API_BASE_URL = "https://api.seoulmate.my/api"
 npm run benchmark:recommendation
 ```
 
-이 runner는 인증, Express, Nginx, 네트워크, 실제 외부 provider 지연까지 포함한다. 현재 운영 EC2와 private RDS tunnel에 연결할 수 없어 운영 E2E 수치는 보류했다. Direct benchmark의 1.774초를 운영 API latency로 해석하면 안 된다.
+이 runner는 인증, Express, Nginx, 네트워크, 실제 외부 provider 지연까지 포함한다. 현재 운영 EC2와 private RDS tunnel에 연결할 수 없어 운영 E2E 수치는 보류했다. Direct benchmark의 1.245초를 운영 API latency로 해석하면 안 된다. 성능 최적화 전후 조건과 노드별 결과는 [PERFORMANCE.md](PERFORMANCE.md)에 정리했다.
 
 ## 해석상의 한계
 

@@ -1,0 +1,927 @@
+{
+  "summary": {
+    "label": "performance-before",
+    "measuredAt": "2026-08-19T14:34:31.347Z",
+    "warmupCount": 5,
+    "measuredCount": 40,
+    "successRatePct": 100,
+    "validationPassRatePct": 100,
+    "throughputPerSecond": 0.61,
+    "latencyMs": {
+      "average": 1639.13,
+      "p50": 1520.51,
+      "p95": 2389.7,
+      "max": 2877.54
+    },
+    "nodes": {
+      "parseUserRequest": {
+        "average": 169.82,
+        "p50": 163.67,
+        "p95": 197.76,
+        "max": 221.15
+      },
+      "fetchCandidatePlaces": {
+        "average": 85.4,
+        "p50": 43.86,
+        "p95": 230.67,
+        "max": 256.56
+      },
+      "verifyCandidatePlaces": {
+        "average": 0.01,
+        "p50": 0.01,
+        "p95": 0.01,
+        "max": 0.02
+      },
+      "fetchContextData": {
+        "average": 1359.06,
+        "p50": 1262.99,
+        "p95": 2087.43,
+        "max": 2664.76
+      },
+      "scorePlaces": {
+        "average": 1.57,
+        "p50": 1.98,
+        "p95": 3,
+        "max": 4.08
+      },
+      "buildCourse": {
+        "average": 23.12,
+        "p50": 22.36,
+        "p95": 40.26,
+        "max": 44.82
+      },
+      "validateRecommendation": {
+        "average": 0.05,
+        "p50": 0.05,
+        "p95": 0.09,
+        "max": 0.12
+      },
+      "buildAlternativeCourse": {
+        "average": 0.01,
+        "p50": 0.01,
+        "p95": 0.01,
+        "max": 0.09
+      },
+      "validateRecommendationFinal": {
+        "average": 0.02,
+        "p50": 0.02,
+        "p95": 0.04,
+        "max": 0.1
+      },
+      "generateRiskNotice": {
+        "average": 0.01,
+        "p50": 0,
+        "p95": 0.01,
+        "max": 0.1
+      },
+      "formatRecommendationResult": {
+        "average": 0.01,
+        "p50": 0,
+        "p95": 0.01,
+        "max": 0.12
+      }
+    }
+  },
+  "measurements": [
+    {
+      "iteration": 1,
+      "region": "성수",
+      "latencyMs": 1482.411399999999,
+      "candidateCount": 108,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 153.48470000000088,
+        "fetchCandidatePlaces": 61.64630000000034,
+        "verifyCandidatePlaces": 0.011099999999714782,
+        "fetchContextData": 1238.399800000001,
+        "scorePlaces": 3.4043000000001484,
+        "buildCourse": 25.287200000000666,
+        "validateRecommendation": 0.06760000000031141,
+        "buildAlternativeCourse": 0.008100000000922591,
+        "validateRecommendationFinal": 0.02269999999953143,
+        "generateRiskNotice": 0.008499999999912689,
+        "formatRecommendationResult": 0.011400000001231092
+      }
+    },
+    {
+      "iteration": 2,
+      "region": "홍대",
+      "latencyMs": 2058.151099999999,
+      "candidateCount": 113,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 174.19460000000072,
+        "fetchCandidatePlaces": 198.84480000000076,
+        "verifyCandidatePlaces": 0.009700000000520959,
+        "fetchContextData": 1659.4979000000003,
+        "scorePlaces": 2.6112000000011903,
+        "buildCourse": 22.839399999998932,
+        "validateRecommendation": 0.04039999999986321,
+        "buildAlternativeCourse": 0.0063999999983934686,
+        "validateRecommendationFinal": 0.03290000000015425,
+        "generateRiskNotice": 0.010099999999511056,
+        "formatRecommendationResult": 0.009200000000419095
+      }
+    },
+    {
+      "iteration": 3,
+      "region": "강남",
+      "latencyMs": 1584.9964999999993,
+      "candidateCount": 111,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 152.21960000000036,
+        "fetchCandidatePlaces": 178.03559999999925,
+        "verifyCandidatePlaces": 0.010000000000218279,
+        "fetchContextData": 1234.5708999999988,
+        "scorePlaces": 2.3320999999996275,
+        "buildCourse": 17.593800000002375,
+        "validateRecommendation": 0.05849999999918509,
+        "buildAlternativeCourse": 0.008000000001629815,
+        "validateRecommendationFinal": 0.017599999999220017,
+        "generateRiskNotice": 0.10139999999955762,
+        "formatRecommendationResult": 0.006799999999202555
+      }
+    },
+    {
+      "iteration": 4,
+      "region": "잠실",
+      "latencyMs": 1488.6317999999992,
+      "candidateCount": 3,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 175.17549999999756,
+        "fetchCandidatePlaces": 16.882599999997183,
+        "verifyCandidatePlaces": 0.011200000000826549,
+        "fetchContextData": 1279.811700000002,
+        "scorePlaces": 0.10410000000047148,
+        "buildCourse": 16.53989999999976,
+        "validateRecommendation": 0.03210000000035507,
+        "buildAlternativeCourse": 0.006699999998090789,
+        "validateRecommendationFinal": 0.011299999998300336,
+        "generateRiskNotice": 0.012600000001839362,
+        "formatRecommendationResult": 0.006199999999807915
+      }
+    },
+    {
+      "iteration": 5,
+      "region": "종로",
+      "latencyMs": 1397.8744000000006,
+      "candidateCount": 92,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 156.22379999999976,
+        "fetchCandidatePlaces": 43.855100000000675,
+        "verifyCandidatePlaces": 0.009600000001228182,
+        "fetchContextData": 1155.0010999999977,
+        "scorePlaces": 2.199000000000524,
+        "buildCourse": 40.25989999999729,
+        "validateRecommendation": 0.12049999999726424,
+        "buildAlternativeCourse": 0.010699999998905696,
+        "validateRecommendationFinal": 0.023199999999633292,
+        "generateRiskNotice": 0.008899999997083796,
+        "formatRecommendationResult": 0.12029999999867869
+      }
+    },
+    {
+      "iteration": 6,
+      "region": "망원",
+      "latencyMs": 1480.8198999999986,
+      "candidateCount": 6,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 171.58580000000075,
+        "fetchCandidatePlaces": 20.251000000000204,
+        "verifyCandidatePlaces": 0.009200000000419095,
+        "fetchContextData": 1266.2988000000005,
+        "scorePlaces": 0.20170000000143773,
+        "buildCourse": 22.361699999997654,
+        "validateRecommendation": 0.03740000000107102,
+        "buildAlternativeCourse": 0.006300000000919681,
+        "validateRecommendationFinal": 0.01029999999809661,
+        "generateRiskNotice": 0.006600000000617001,
+        "formatRecommendationResult": 0.01329999999870779
+      }
+    },
+    {
+      "iteration": 7,
+      "region": "명동",
+      "latencyMs": 1740.337599999999,
+      "candidateCount": 116,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 163.66800000000148,
+        "fetchCandidatePlaces": 256.5586000000003,
+        "verifyCandidatePlaces": 0.010200000000622822,
+        "fetchContextData": 1294.3556000000026,
+        "scorePlaces": 2.712999999999738,
+        "buildCourse": 22.898300000000745,
+        "validateRecommendation": 0.0544000000008964,
+        "buildAlternativeCourse": 0.005299999997077975,
+        "validateRecommendationFinal": 0.019199999998818384,
+        "generateRiskNotice": 0.003099999998084968,
+        "formatRecommendationResult": 0.008799999999610009
+      }
+    },
+    {
+      "iteration": 8,
+      "region": "여의도",
+      "latencyMs": 1520.5085,
+      "candidateCount": 9,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 180.65480000000025,
+        "fetchCandidatePlaces": 29.85900000000038,
+        "verifyCandidatePlaces": 0.009500000000116415,
+        "fetchContextData": 1287.701299999997,
+        "scorePlaces": 0.3247000000010303,
+        "buildCourse": 21.840299999999843,
+        "validateRecommendation": 0.04869999999937136,
+        "buildAlternativeCourse": 0.006000000001222361,
+        "validateRecommendationFinal": 0.018000000000029104,
+        "generateRiskNotice": 0.004000000000814907,
+        "formatRecommendationResult": 0.0021999999989930075
+      }
+    },
+    {
+      "iteration": 9,
+      "region": "서울숲",
+      "latencyMs": 2389.699199999999,
+      "candidateCount": 97,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 180.61179999999877,
+        "fetchCandidatePlaces": 94.81720000000132,
+        "verifyCandidatePlaces": 0.010999999998603016,
+        "fetchContextData": 2087.4349,
+        "scorePlaces": 1.8646000000007916,
+        "buildCourse": 24.661700000000565,
+        "validateRecommendation": 0.08389999999781139,
+        "buildAlternativeCourse": 0.013399999999819556,
+        "validateRecommendationFinal": 0.10199999999895226,
+        "generateRiskNotice": 0.004799999998795101,
+        "formatRecommendationResult": 0.002899999999499414
+      }
+    },
+    {
+      "iteration": 10,
+      "region": "청계천",
+      "latencyMs": 1383.6314999999995,
+      "candidateCount": 5,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 154.11699999999837,
+        "fetchCandidatePlaces": 8.099999999998545,
+        "verifyCandidatePlaces": 0.008999999998195563,
+        "fetchContextData": 1204.6455999999998,
+        "scorePlaces": 0.14970000000175787,
+        "buildCourse": 16.446500000001834,
+        "validateRecommendation": 0.08959999999933643,
+        "buildAlternativeCourse": 0.0063999999983934686,
+        "validateRecommendationFinal": 0.02049999999871943,
+        "generateRiskNotice": 0.004000000000814907,
+        "formatRecommendationResult": 0.001999999996769475
+      }
+    },
+    {
+      "iteration": 11,
+      "region": "성수",
+      "latencyMs": 2746.6244000000006,
+      "candidateCount": 108,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 195.95670000000246,
+        "fetchCandidatePlaces": 57.66900000000169,
+        "verifyCandidatePlaces": 0.009900000000925502,
+        "fetchContextData": 2455.2285999999986,
+        "scorePlaces": 2.2811000000001513,
+        "buildCourse": 35.375700000000506,
+        "validateRecommendation": 0.03930000000036671,
+        "buildAlternativeCourse": 0.004300000000512227,
+        "validateRecommendationFinal": 0.01510000000052969,
+        "generateRiskNotice": 0.002899999999499414,
+        "formatRecommendationResult": 0.0017000000007101335
+      }
+    },
+    {
+      "iteration": 12,
+      "region": "홍대",
+      "latencyMs": 1728.992900000001,
+      "candidateCount": 113,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 193.22669999999925,
+        "fetchCandidatePlaces": 210.09660000000076,
+        "verifyCandidatePlaces": 0.009600000001228182,
+        "fetchContextData": 1304.9847000000009,
+        "scorePlaces": 2.976599999998143,
+        "buildCourse": 17.565899999997782,
+        "validateRecommendation": 0.05310000000099535,
+        "buildAlternativeCourse": 0.007499999999708962,
+        "validateRecommendationFinal": 0.01719999999841093,
+        "generateRiskNotice": 0.002900000003137393,
+        "formatRecommendationResult": 0.0017000000007101335
+      }
+    },
+    {
+      "iteration": 13,
+      "region": "강남",
+      "latencyMs": 1654.5823000000019,
+      "candidateCount": 111,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 153.8811999999998,
+        "fetchCandidatePlaces": 208.7501000000011,
+        "verifyCandidatePlaces": 0.010500000000320142,
+        "fetchContextData": 1271.469600000004,
+        "scorePlaces": 2.317399999999907,
+        "buildCourse": 17.945200000001932,
+        "validateRecommendation": 0.06300000000192085,
+        "buildAlternativeCourse": 0.008900000000721775,
+        "validateRecommendationFinal": 0.024300000004586764,
+        "generateRiskNotice": 0.0037999999985913746,
+        "formatRecommendationResult": 0.0020000000004074536
+      }
+    },
+    {
+      "iteration": 14,
+      "region": "잠실",
+      "latencyMs": 1473.536500000002,
+      "candidateCount": 3,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 183.56620000000112,
+        "fetchCandidatePlaces": 14.814899999997579,
+        "verifyCandidatePlaces": 0.009800000007089693,
+        "fetchContextData": 1261.8833999999988,
+        "scorePlaces": 0.11589999999705469,
+        "buildCourse": 13.055099999997765,
+        "validateRecommendation": 0.03289999999833526,
+        "buildAlternativeCourse": 0.006199999996169936,
+        "validateRecommendationFinal": 0.011500000000523869,
+        "generateRiskNotice": 0.002400000004854519,
+        "formatRecommendationResult": 0.001600000003236346
+      }
+    },
+    {
+      "iteration": 15,
+      "region": "종로",
+      "latencyMs": 1375.0604999999996,
+      "candidateCount": 92,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 145.7016999999978,
+        "fetchCandidatePlaces": 42.50959999999759,
+        "verifyCandidatePlaces": 0.010699999998905696,
+        "fetchContextData": 1145.1843000000008,
+        "scorePlaces": 2.7102000000013504,
+        "buildCourse": 38.70420000000013,
+        "validateRecommendation": 0.0859000000054948,
+        "buildAlternativeCourse": 0.006199999996169936,
+        "validateRecommendationFinal": 0.08959999999933643,
+        "generateRiskNotice": 0.005199999999604188,
+        "formatRecommendationResult": 0.003599999996367842
+      }
+    },
+    {
+      "iteration": 16,
+      "region": "망원",
+      "latencyMs": 1413.1765999999989,
+      "candidateCount": 6,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 182.0144999999975,
+        "fetchCandidatePlaces": 16.527500000003783,
+        "verifyCandidatePlaces": 0.01659999999537831,
+        "fetchContextData": 1198.0508999999947,
+        "scorePlaces": 0.2514000000010128,
+        "buildCourse": 16.20119999999588,
+        "validateRecommendation": 0.03160000000207219,
+        "buildAlternativeCourse": 0.006699999998090789,
+        "validateRecommendationFinal": 0.012300000002142042,
+        "generateRiskNotice": 0.003099999994446989,
+        "formatRecommendationResult": 0.0054000000018277206
+      }
+    },
+    {
+      "iteration": 17,
+      "region": "명동",
+      "latencyMs": 1737.8214000000007,
+      "candidateCount": 116,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 152.28349999999773,
+        "fetchCandidatePlaces": 222.81880000000092,
+        "verifyCandidatePlaces": 0.011899999997694977,
+        "fetchContextData": 1335.879399999998,
+        "scorePlaces": 4.0812000000005355,
+        "buildCourse": 22.590700000000652,
+        "validateRecommendation": 0.05489999999554129,
+        "buildAlternativeCourse": 0.008000000001629815,
+        "validateRecommendationFinal": 0.03680000000167638,
+        "generateRiskNotice": 0.004300000000512227,
+        "formatRecommendationResult": 0.002899999999499414
+      }
+    },
+    {
+      "iteration": 18,
+      "region": "여의도",
+      "latencyMs": 1561.950499999999,
+      "candidateCount": 9,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 199.93539999999484,
+        "fetchCandidatePlaces": 14.02850000000035,
+        "verifyCandidatePlaces": 0.00930000000516884,
+        "fetchContextData": 1325.9252000000051,
+        "scorePlaces": 0.35689999999885913,
+        "buildCourse": 21.58009999999922,
+        "validateRecommendation": 0.04890000000159489,
+        "buildAlternativeCourse": 0.008099999999103602,
+        "validateRecommendationFinal": 0.01299999999901047,
+        "generateRiskNotice": 0.0031999999991967343,
+        "formatRecommendationResult": 0.002099999997881241
+      }
+    },
+    {
+      "iteration": 19,
+      "region": "서울숲",
+      "latencyMs": 1483.298999999999,
+      "candidateCount": 97,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 151.28319999999803,
+        "fetchCandidatePlaces": 89.05529999999999,
+        "verifyCandidatePlaces": 0.010199999996984843,
+        "fetchContextData": 1217.6026999999958,
+        "scorePlaces": 1.9363999999986845,
+        "buildCourse": 23.268499999998312,
+        "validateRecommendation": 0.055999999996856786,
+        "buildAlternativeCourse": 0.008600000001024455,
+        "validateRecommendationFinal": 0.021399999997811392,
+        "generateRiskNotice": 0.00420000000303844,
+        "formatRecommendationResult": 0.0025000000023283064
+      }
+    },
+    {
+      "iteration": 20,
+      "region": "청계천",
+      "latencyMs": 1339.969999999994,
+      "candidateCount": 5,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 150.59210000000166,
+        "fetchCandidatePlaces": 7.1305000000065775,
+        "verifyCandidatePlaces": 0.008699999998498242,
+        "fetchContextData": 1166.2639999999956,
+        "scorePlaces": 0.15520000000105938,
+        "buildCourse": 15.65729999999894,
+        "validateRecommendation": 0.06279999999969732,
+        "buildAlternativeCourse": 0.009299999997892883,
+        "validateRecommendationFinal": 0.036399999997229315,
+        "generateRiskNotice": 0.005600000004051253,
+        "formatRecommendationResult": 0.0033000000039464794
+      }
+    },
+    {
+      "iteration": 21,
+      "region": "성수",
+      "latencyMs": 1466.5772999999972,
+      "candidateCount": 108,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 176.32420000000275,
+        "fetchCandidatePlaces": 51.66339999999764,
+        "verifyCandidatePlaces": 0.011899999997694977,
+        "fetchContextData": 1212.8700000000026,
+        "scorePlaces": 2.3066000000035274,
+        "buildCourse": 23.220200000003388,
+        "validateRecommendation": 0.10360000000218861,
+        "buildAlternativeCourse": 0.007400000002235174,
+        "validateRecommendationFinal": 0.017599999999220017,
+        "generateRiskNotice": 0.003599999996367842,
+        "formatRecommendationResult": 0.0026999999972758815
+      }
+    },
+    {
+      "iteration": 22,
+      "region": "홍대",
+      "latencyMs": 1592.2137000000002,
+      "candidateCount": 113,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 155.4242000000013,
+        "fetchCandidatePlaces": 191.45209999999497,
+        "verifyCandidatePlaces": 0.010600000001431908,
+        "fetchContextData": 1228.3228999999992,
+        "scorePlaces": 2.371500000001106,
+        "buildCourse": 14.529600000001665,
+        "validateRecommendation": 0.036099999997531995,
+        "buildAlternativeCourse": 0.006199999996169936,
+        "validateRecommendationFinal": 0.015100000004167669,
+        "generateRiskNotice": 0.0028000000020256266,
+        "formatRecommendationResult": 0.0015999999959603883
+      }
+    },
+    {
+      "iteration": 23,
+      "region": "강남",
+      "latencyMs": 1642.3470000000016,
+      "candidateCount": 111,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 190.66849999999977,
+        "fetchCandidatePlaces": 164.8156999999992,
+        "verifyCandidatePlaces": 0.01209999999991851,
+        "fetchContextData": 1262.9891999999963,
+        "scorePlaces": 2.4061000000001513,
+        "buildCourse": 21.31079999999929,
+        "validateRecommendation": 0.05620000000635628,
+        "buildAlternativeCourse": 0.008600000001024455,
+        "validateRecommendationFinal": 0.02290000000357395,
+        "generateRiskNotice": 0.003899999996065162,
+        "formatRecommendationResult": 0.002799999994749669
+      }
+    },
+    {
+      "iteration": 24,
+      "region": "잠실",
+      "latencyMs": 2877.5416999999943,
+      "candidateCount": 3,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 179.2548999999999,
+        "fetchCandidatePlaces": 16.087799999993877,
+        "verifyCandidatePlaces": 0.008600000001024455,
+        "fetchContextData": 2664.764000000003,
+        "scorePlaces": 0.16189999999915017,
+        "buildCourse": 17.166700000001583,
+        "validateRecommendation": 0.03870000000461005,
+        "buildAlternativeCourse": 0.006900000000314321,
+        "validateRecommendationFinal": 0.011399999995774124,
+        "generateRiskNotice": 0.0023999999975785613,
+        "formatRecommendationResult": 0.0017000000007101335
+      }
+    },
+    {
+      "iteration": 25,
+      "region": "종로",
+      "latencyMs": 1437.3882999999987,
+      "candidateCount": 92,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 161.7019999999975,
+        "fetchCandidatePlaces": 42.15090000000055,
+        "verifyCandidatePlaces": 0.010699999998905696,
+        "fetchContextData": 1187.9527999999991,
+        "scorePlaces": 2.6129999999975553,
+        "buildCourse": 42.80319999999483,
+        "validateRecommendation": 0.06429999999818392,
+        "buildAlternativeCourse": 0.008800000003247987,
+        "validateRecommendationFinal": 0.02719999999681022,
+        "generateRiskNotice": 0.004899999999906868,
+        "formatRecommendationResult": 0.0028000000020256266
+      }
+    },
+    {
+      "iteration": 26,
+      "region": "망원",
+      "latencyMs": 1447.1487000000052,
+      "candidateCount": 6,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 161.10899999999674,
+        "fetchCandidatePlaces": 20.71889999999985,
+        "verifyCandidatePlaces": 0.009799999999813735,
+        "fetchContextData": 1250.850099999996,
+        "scorePlaces": 0.2276999999958207,
+        "buildCourse": 14.070800000001327,
+        "validateRecommendation": 0.03689999999915017,
+        "buildAlternativeCourse": 0.0073999999949592166,
+        "validateRecommendationFinal": 0.010099999999511056,
+        "generateRiskNotice": 0.0026999999972758815,
+        "formatRecommendationResult": 0.001799999998183921
+      }
+    },
+    {
+      "iteration": 27,
+      "region": "명동",
+      "latencyMs": 1752.205200000004,
+      "candidateCount": 116,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 180.2774999999965,
+        "fetchCandidatePlaces": 246.6059000000023,
+        "verifyCandidatePlaces": 0.01209999999991851,
+        "fetchContextData": 1300.831299999998,
+        "scorePlaces": 3.002700000004552,
+        "buildCourse": 21.35280000000057,
+        "validateRecommendation": 0.047299999998358544,
+        "buildAlternativeCourse": 0.008200000003853347,
+        "validateRecommendationFinal": 0.01570000000356231,
+        "generateRiskNotice": 0.0029000000067753717,
+        "formatRecommendationResult": 0.0018000000054598786
+      }
+    },
+    {
+      "iteration": 28,
+      "region": "여의도",
+      "latencyMs": 1627.1463000000003,
+      "candidateCount": 9,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 152.60109999999986,
+        "fetchCandidatePlaces": 14.097000000001572,
+        "verifyCandidatePlaces": 0.009400000002642628,
+        "fetchContextData": 1437.6749999999956,
+        "scorePlaces": 0.22419999999692664,
+        "buildCourse": 22.419199999996636,
+        "validateRecommendation": 0.05410000000119908,
+        "buildAlternativeCourse": 0.008200000003853347,
+        "validateRecommendationFinal": 0.013399999996181577,
+        "generateRiskNotice": 0.0031000000017229468,
+        "formatRecommendationResult": 0.0019000000029336661
+      }
+    },
+    {
+      "iteration": 29,
+      "region": "서울숲",
+      "latencyMs": 1608.5647000000026,
+      "candidateCount": 97,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 150.2853000000032,
+        "fetchCandidatePlaces": 72.45360000000073,
+        "verifyCandidatePlaces": 0.009700000002339948,
+        "fetchContextData": 1361.1178,
+        "scorePlaces": 1.2252000000007683,
+        "buildCourse": 23.35670000000391,
+        "validateRecommendation": 0.041499999999359716,
+        "buildAlternativeCourse": 0.007499999999708962,
+        "validateRecommendationFinal": 0.01840000000083819,
+        "generateRiskNotice": 0.0034999999988940544,
+        "formatRecommendationResult": 0.0025000000023283064
+      }
+    },
+    {
+      "iteration": 30,
+      "region": "청계천",
+      "latencyMs": 1443.4389999999985,
+      "candidateCount": 5,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 191.78789999999572,
+        "fetchCandidatePlaces": 7.643000000003667,
+        "verifyCandidatePlaces": 0.012300000002142042,
+        "fetchContextData": 1221.9631999999983,
+        "scorePlaces": 0.24799999999959255,
+        "buildCourse": 21.656999999999243,
+        "validateRecommendation": 0.046600000001490116,
+        "buildAlternativeCourse": 0.008200000003853347,
+        "validateRecommendationFinal": 0.020700000000942964,
+        "generateRiskNotice": 0.0036999999938416295,
+        "formatRecommendationResult": 0.0020000000004074536
+      }
+    },
+    {
+      "iteration": 31,
+      "region": "성수",
+      "latencyMs": 1502.5681999999942,
+      "candidateCount": 108,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 170.8643000000011,
+        "fetchCandidatePlaces": 53.20590000000084,
+        "verifyCandidatePlaces": 0.010000000002037268,
+        "fetchContextData": 1255.0964999999997,
+        "scorePlaces": 2.5653000000020256,
+        "buildCourse": 20.696600000002945,
+        "validateRecommendation": 0.05189999999856809,
+        "buildAlternativeCourse": 0.00879999999597203,
+        "validateRecommendationFinal": 0.01750000000174623,
+        "generateRiskNotice": 0.0028000000020256266,
+        "formatRecommendationResult": 0.001799999998183921
+      }
+    },
+    {
+      "iteration": 32,
+      "region": "홍대",
+      "latencyMs": 1751.9251000000004,
+      "candidateCount": 113,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 197.7589999999982,
+        "fetchCandidatePlaces": 187.229499999994,
+        "verifyCandidatePlaces": 0.011299999998300336,
+        "fetchContextData": 1336.124800000005,
+        "scorePlaces": 2.176500000001397,
+        "buildCourse": 28.50409999999829,
+        "validateRecommendation": 0.045400000002700835,
+        "buildAlternativeCourse": 0.0078000000066822395,
+        "validateRecommendationFinal": 0.021200000002863817,
+        "generateRiskNotice": 0.003899999996065162,
+        "formatRecommendationResult": 0.0019000000029336661
+      }
+    },
+    {
+      "iteration": 33,
+      "region": "강남",
+      "latencyMs": 1579.0411000000022,
+      "candidateCount": 111,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 147.30019999999786,
+        "fetchCandidatePlaces": 156.3839999999982,
+        "verifyCandidatePlaces": 0.0102000000042608,
+        "fetchContextData": 1251.2448999999906,
+        "scorePlaces": 2.7721000000019558,
+        "buildCourse": 21.186000000001513,
+        "validateRecommendation": 0.05919999998877756,
+        "buildAlternativeCourse": 0.00879999999597203,
+        "validateRecommendationFinal": 0.024099999995087273,
+        "generateRiskNotice": 0.004099999991012737,
+        "formatRecommendationResult": 0.002299999992828816
+      }
+    },
+    {
+      "iteration": 34,
+      "region": "잠실",
+      "latencyMs": 1491.9743000000017,
+      "candidateCount": 3,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 154.92729999999574,
+        "fetchCandidatePlaces": 14.361999999993714,
+        "verifyCandidatePlaces": 0.008699999991222285,
+        "fetchContextData": 1300.0420000000013,
+        "scorePlaces": 0.13709999999264255,
+        "buildCourse": 22.384699999995064,
+        "validateRecommendation": 0.04020000000309665,
+        "buildAlternativeCourse": 0.008600000001024455,
+        "validateRecommendationFinal": 0.016400000007706694,
+        "generateRiskNotice": 0.003799999991315417,
+        "formatRecommendationResult": 0.001999999993131496
+      }
+    },
+    {
+      "iteration": 35,
+      "region": "종로",
+      "latencyMs": 1484.4398000000074,
+      "candidateCount": 92,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 150.2679999999964,
+        "fetchCandidatePlaces": 39.94180000000051,
+        "verifyCandidatePlaces": 0.011700000002747402,
+        "fetchContextData": 1246.6272999999928,
+        "scorePlaces": 2.661900000006426,
+        "buildCourse": 44.819699999992736,
+        "validateRecommendation": 0.03929999998945277,
+        "buildAlternativeCourse": 0.005600000004051253,
+        "validateRecommendationFinal": 0.017099999997299165,
+        "generateRiskNotice": 0.003000000011525117,
+        "formatRecommendationResult": 0.001600000003236346
+      }
+    },
+    {
+      "iteration": 36,
+      "region": "망원",
+      "latencyMs": 1418.7608000000037,
+      "candidateCount": 6,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 195.13240000000224,
+        "fetchCandidatePlaces": 16.376799999998184,
+        "verifyCandidatePlaces": 0.008900000000721775,
+        "fetchContextData": 1184.5173000000068,
+        "scorePlaces": 0.19290000000910368,
+        "buildCourse": 22.453200000003562,
+        "validateRecommendation": 0.02740000000630971,
+        "buildAlternativeCourse": 0.005799999998998828,
+        "validateRecommendationFinal": 0.00990000000456348,
+        "generateRiskNotice": 0.0026000000070780516,
+        "formatRecommendationResult": 0.001700000007986091
+      }
+    },
+    {
+      "iteration": 37,
+      "region": "명동",
+      "latencyMs": 1839.8472000000038,
+      "candidateCount": 116,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 181.6487000000052,
+        "fetchCandidatePlaces": 230.67349999998987,
+        "verifyCandidatePlaces": 0.010800000003655441,
+        "fetchContextData": 1407.0136000000057,
+        "scorePlaces": 2.2589000000007218,
+        "buildCourse": 18.041700000001583,
+        "validateRecommendation": 0.0654999999969732,
+        "buildAlternativeCourse": 0.00960000000486616,
+        "validateRecommendationFinal": 0.02669999998761341,
+        "generateRiskNotice": 0.04589999999734573,
+        "formatRecommendationResult": 0.0026999999972758815
+      }
+    },
+    {
+      "iteration": 38,
+      "region": "여의도",
+      "latencyMs": 1597.5506999999925,
+      "candidateCount": 9,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 147.6831999999995,
+        "fetchCandidatePlaces": 13.868699999991804,
+        "verifyCandidatePlaces": 0.00909999999566935,
+        "fetchContextData": 1411.6164999999892,
+        "scorePlaces": 0.2255999999906635,
+        "buildCourse": 24.01919999999518,
+        "validateRecommendation": 0.03979999999864958,
+        "buildAlternativeCourse": 0.008000000001629815,
+        "validateRecommendationFinal": 0.015200000008917414,
+        "generateRiskNotice": 0.003400000001420267,
+        "formatRecommendationResult": 0.0019000000029336661
+      }
+    },
+    {
+      "iteration": 39,
+      "region": "서울숲",
+      "latencyMs": 1600.4925000000076,
+      "candidateCount": 97,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 221.14650000000256,
+        "fetchCandidatePlaces": 76.95889999999781,
+        "verifyCandidatePlaces": 0.009799999999813735,
+        "fetchContextData": 1275.0617999999959,
+        "scorePlaces": 1.9812000000092667,
+        "buildCourse": 25.226299999994808,
+        "validateRecommendation": 0.03830000000016298,
+        "buildAlternativeCourse": 0.006700000012642704,
+        "validateRecommendationFinal": 0.012799999996786937,
+        "generateRiskNotice": 0.0029999999969732016,
+        "formatRecommendationResult": 0.0014999999984866008
+      }
+    },
+    {
+      "iteration": 40,
+      "region": "청계천",
+      "latencyMs": 1362.0776000000042,
+      "candidateCount": 5,
+      "success": true,
+      "validationPassed": true,
+      "nodeLatencyMs": {
+        "parseUserRequest": 156.18210000000545,
+        "fetchCandidatePlaces": 7.215400000000955,
+        "verifyCandidatePlaces": 0.007500000006984919,
+        "fetchContextData": 1175.5380999999907,
+        "scorePlaces": 0.14439999999012798,
+        "buildCourse": 22.777200000011362,
+        "validateRecommendation": 0.046699999991687946,
+        "buildAlternativeCourse": 0.09339999999792781,
+        "validateRecommendationFinal": 0.02620000000752043,
+        "generateRiskNotice": 0.004099999991012737,
+        "formatRecommendationResult": 0.0027000000118277967
+      }
+    }
+  ]
+}
