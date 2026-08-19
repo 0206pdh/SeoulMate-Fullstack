@@ -12,6 +12,10 @@ SeoulMate의 정량 검증 결과는 정적 포트폴리오 차트와 로컬 Gra
 | PostgreSQL query 감소    | [`postgresql-query-reduction.png`](../../docs/assets/benchmark/postgresql-query-reduction.png) | [`postgresql-query-reduction.html`](../../docs/assets/benchmark/postgresql-query-reduction.html) |
 | 추천 다양성              | [`recommendation-diversity.png`](../../docs/assets/benchmark/recommendation-diversity.png)     | [`recommendation-diversity.html`](../../docs/assets/benchmark/recommendation-diversity.html)     |
 | Grafana 전체 dashboard   | [`grafana-dashboard.png`](../../docs/assets/benchmark/grafana-dashboard.png)                   | Docker 실행 필요                                                                                 |
+| 실제 DB 데이터           | [`dbeaver-database-data.png`](../../docs/assets/benchmark/dbeaver-database-data.png)           | DBeaver 계열 도구 연결 필요                                                                      |
+| 실제 DB ERD              | [`dbeaver-erd.png`](../../docs/assets/benchmark/dbeaver-erd.png)                               | DBeaver Desktop 연결 필요                                                                        |
+| 기존 SQL graphical plan  | [`pgadmin-explain-before.png`](../../docs/assets/benchmark/pgadmin-explain-before.png)         | pgAdmin 연결 필요                                                                                |
+| 개선 SQL graphical plan  | [`pgadmin-explain-after.png`](../../docs/assets/benchmark/pgadmin-explain-after.png)           | pgAdmin 연결 필요                                                                                |
 
 ## PostgreSQL 실행계획 생성
 
@@ -59,6 +63,29 @@ docker compose -f docker-compose.visualization.yml up -d
 - 포트 `13000`은 로컬 시각화 전용
 
 Grafana는 실시간 운영 monitoring 용도가 아니라 저장된 benchmark 결과를 포트폴리오 dashboard로 재현하기 위한 구성이다. 운영 지표를 연결할 때는 TestData datasource를 PostgreSQL·Prometheus datasource로 교체한다.
+
+## DBeaver·pgAdmin 실제 DB 검증
+
+같은 compose 파일은 기존 benchmark PostgreSQL에 직접 연결하는 공식 DB 도구도 실행한다.
+
+- DBeaver CloudBeaver: `http://127.0.0.1:18978`
+- pgAdmin 4: `http://127.0.0.1:15050`
+- 컨테이너 내부 DB endpoint: `seoulmate-benchmark-db:5432/seoulmate_benchmark`
+- 호스트 DB endpoint: `127.0.0.1:15433/seoulmate_benchmark`
+
+CloudBeaver SQL editor에서 실제 `public_data`를 집계한 결과는 172,821행, 원천 데이터셋 9개, 좌표 보유 170,822행, 서울 자치구 25개다. Community 웹 버전에서 ERD 편집기는 제공 범위가 제한되므로 관계도는 같은 DB에 연결한 DBeaver Desktop Community에서 캡처했다.
+
+![DBeaver 계열 도구 실제 데이터](../../docs/assets/benchmark/dbeaver-database-data.png)
+
+![DBeaver Desktop 실제 ERD](../../docs/assets/benchmark/dbeaver-erd.png)
+
+pgAdmin Query Tool에서 기존 SQL과 개선 SQL을 각각 실행한 뒤 `Shift+F7`의 `EXPLAIN ANALYZE` graphical plan을 캡처했다. 기존 plan은 전체 후보를 정렬하는 `Sort → Gather Merge → Limit` 흐름을, 개선 plan은 `idx_public_data_district_source_updated` 복합 인덱스, 데이터셋별 `CROSS JOIN LATERAL` quota, 선택 ID의 PK hydrate 흐름을 보여준다.
+
+| 기존 SQL                                                                                   | 개선 SQL                                                                                  |
+| ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| ![pgAdmin 기존 SQL graphical plan](../../docs/assets/benchmark/pgadmin-explain-before.png) | ![pgAdmin 개선 SQL graphical plan](../../docs/assets/benchmark/pgadmin-explain-after.png) |
+
+화면 하단 시간은 cache 상태가 반영된 개별 warm 실행값이다. 포트폴리오의 `301.32 → 13.18ms`, scan tuple `450,286 → 11,206`, hit block `29,105 → 2,009` 비교는 저장된 `FORMAT JSON` plan과 반복 benchmark를 기준으로 한다.
 
 종료할 때는 다음 명령을 사용한다.
 

@@ -19,3 +19,43 @@ services:
       timeout: 3s
       retries: 30
 
+  cloudbeaver:
+    image: dbeaver/cloudbeaver:25.2.4
+    container_name: seoulmate-cloudbeaver
+    ports:
+      - "18978:8978"
+    environment:
+      CB_SERVER_NAME: SeoulMate Database
+      CB_SERVER_URL: http://127.0.0.1:18978/
+      CB_ADMIN_NAME: seoulmate-admin
+      CB_ADMIN_PASSWORD: seoulmate-local-admin
+    volumes:
+      - seoulmate-cloudbeaver-workspace:/opt/cloudbeaver/workspace
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8978"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  pgadmin:
+    image: dpage/pgadmin4:9.7
+    container_name: seoulmate-pgadmin
+    ports:
+      - "15050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: seoulmate@example.com
+      PGADMIN_DEFAULT_PASSWORD: seoulmate-local-admin
+      PGADMIN_REPLACE_SERVERS_ON_STARTUP: "True"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    volumes:
+      - ./pgadmin/servers.json:/pgadmin4/servers.json:ro
+      - seoulmate-pgadmin-data:/var/lib/pgadmin
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1/misc/ping >/dev/null"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+volumes:
+  seoulmate-cloudbeaver-workspace:
+  seoulmate-pgadmin-data:

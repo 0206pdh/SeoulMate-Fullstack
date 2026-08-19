@@ -329,6 +329,18 @@ pod orchestration 자체가 현재 문제는 아니었다. 서버 한 대의 서
 
 ![PostgreSQL 실행계획 전후 트리](docs/assets/benchmark/postgresql-execution-plan.png)
 
+정적 차트뿐 아니라 실제 PostgreSQL 16에도 연결해 결과를 교차 검증했다. DBeaver 계열 도구의 실제 result grid에서 `public_data` 172,821행, 9개 데이터셋, 좌표 보유 170,822행, 서울 25개 자치구를 확인하고, DBeaver Desktop ERD에서 `users → recommendation_requests → recommendations` 및 `saved_courses`의 FK 관계를 점검했다.
+
+![DBeaver 실제 데이터 검증](docs/assets/benchmark/dbeaver-database-data.png)
+
+![DBeaver 실제 ERD](docs/assets/benchmark/dbeaver-erd.png)
+
+pgAdmin Query Tool에서는 동일 DB를 대상으로 기존 SQL과 개선 SQL을 각각 `EXPLAIN ANALYZE`했다. 기존 계획의 `public_data → Sort → Gather Merge → Limit` 경로가 개선 후 복합 인덱스 후보 조회, 데이터셋별 `LATERAL` quota, PK hydrate 경로로 바뀐 것을 실제 graphical plan에서 확인했다. 아래 화면의 시간은 개별 warm 실행 화면이며, 30~100회 반복한 대표 정량값은 앞 절의 benchmark 결과를 기준으로 한다.
+
+| 기존 SQL 실행계획                                                              | 개선 SQL 실행계획                                                             |
+| ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| ![pgAdmin 기존 SQL 실행계획](docs/assets/benchmark/pgadmin-explain-before.png) | ![pgAdmin 개선 SQL 실행계획](docs/assets/benchmark/pgadmin-explain-after.png) |
+
 ## 설계 과정에서 얻은 점
 
 첫째, LLM의 성능보다 LLM이 결정하지 않아야 할 영역을 정하는 것이 더 중요했다. 장소와 비용처럼 검증 가능한 사실은 데이터와 코드가 소유해야 한다.

@@ -122,6 +122,18 @@ npm run benchmark:direct
 
 Graph latency, LangGraph node 병목, PostgreSQL query 감소, 추천 다양성의 개별 PNG·HTML과 Grafana 재현 방법은 [Benchmark 시각화 문서](SeoulMate_BE/docs/VISUALIZATION.md)에 정리했습니다.
 
+### 실제 DB 도구 검증
+
+아래 화면은 mockup이 아니라 로컬 PostgreSQL 16의 `seoulmate_benchmark`에 직접 연결해 확인한 결과입니다. DBeaver 계열 도구에서 `public_data` 172,821행, 9개 원천 데이터셋, 좌표 보유 170,822행, 서울 25개 자치구를 확인했고, DBeaver Desktop에서 사용자·추천 요청·추천 결과·저장 코스의 FK 관계를 ERD로 검증했습니다.
+
+![DBeaver actual database rows](docs/assets/benchmark/dbeaver-database-data.png)
+
+![DBeaver ERD](docs/assets/benchmark/dbeaver-erd.png)
+
+| 기존 SQL: pgAdmin `EXPLAIN ANALYZE`                                                | 개선 SQL: pgAdmin `EXPLAIN ANALYZE`                                                  |
+| ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| ![pgAdmin legacy execution plan](docs/assets/benchmark/pgadmin-explain-before.png) | ![pgAdmin optimized execution plan](docs/assets/benchmark/pgadmin-explain-after.png) |
+
 ## 프로젝트 구조
 
 ```text
