@@ -112,7 +112,7 @@ npm run benchmark:direct
 - MMR·variant 목적함수·쌍별 Jaccard 적용: 평균 variant **2.9→3.9개**, category entropy **2.27% 증가**, 평균 코스 간 Jaccard **0.0111**
 - 재현 가능한 원본 결과: [`direct-local.json`](SeoulMate_BE/reports/benchmark/direct-local.json), [`direct-local.md`](SeoulMate_BE/reports/benchmark/direct-local.md)
 
-지표 계산식과 실행 조건은 [정량 검증 문서](SeoulMate_BE/docs/BENCHMARK.md)를 참고하세요.
+전체 개선 과정과 단계별 전후 수치, 계산식, 한계와 재현 절차는 [정량 검증 총정리](SeoulMate_BE/docs/QUANTITATIVE_VALIDATION_SUMMARY.md)를 참고하세요. 개별 시나리오 정의는 [정량 검증 문서](SeoulMate_BE/docs/BENCHMARK.md)에 정리되어 있습니다.
 
 ## 프로젝트 구조
 
@@ -194,15 +194,16 @@ push(main)
 
 ## 문서
 
-| 문서                                                               | 설명                                     |
-| ------------------------------------------------------------------ | ---------------------------------------- |
-| [Portfolio](PORTFOLIO.md)                                          | 문제 정의, 기여, LangGraph와 인프라 설계 |
-| [Infrastructure](SeoulMate_BE/docs/INFRASTRUCTURE.md)              | AWS 네트워크, Nginx, PM2, RDS, CI/CD     |
-| [Benchmark](SeoulMate_BE/docs/BENCHMARK.md)                        | 자동 테스트와 E2E 정량 평가              |
-| [Performance](SeoulMate_BE/docs/PERFORMANCE.md)                    | 노드·SQL 병목과 최적화 전후 실측         |
-| [Diversity](SeoulMate_BE/docs/DIVERSITY.md)                        | MMR, variant 목적함수와 다양성 실측      |
-| [AI Recommendation](SeoulMate_BE/docs/AI_COURSE_RECOMMENDATION.md) | 추천 graph, scoring, variant, fallback   |
-| [API](SeoulMate_BE/docs/API.md)                                    | API endpoint와 request/response          |
-| [Database](SeoulMate_BE/docs/DATABASE.md)                          | PostgreSQL schema와 table 역할           |
-| [Deployment](SeoulMate_BE/docs/DEPLOYMENT.md)                      | EC2/RDS 배포와 운영 절차                 |
-| [Security Groups](SeoulMate_BE/docs/AWS_SECURITY_GROUPS.md)        | 포트와 접근 정책                         |
+| 문서                                                                         | 설명                                         |
+| ---------------------------------------------------------------------------- | -------------------------------------------- |
+| [Portfolio](PORTFOLIO.md)                                                    | 문제 정의, 기여, LangGraph와 인프라 설계     |
+| [Infrastructure](SeoulMate_BE/docs/INFRASTRUCTURE.md)                        | AWS 네트워크, Nginx, PM2, RDS, CI/CD         |
+| [Benchmark](SeoulMate_BE/docs/BENCHMARK.md)                                  | 자동 테스트와 E2E 정량 평가                  |
+| [Quantitative Summary](SeoulMate_BE/docs/QUANTITATIVE_VALIDATION_SUMMARY.md) | Phase별 품질·LangGraph·DB·다양성 검증 총정리 |
+| [Performance](SeoulMate_BE/docs/PERFORMANCE.md)                              | 노드·SQL 병목과 최적화 전후 실측             |
+| [Diversity](SeoulMate_BE/docs/DIVERSITY.md)                                  | MMR, variant 목적함수와 다양성 실측          |
+| [AI Recommendation](SeoulMate_BE/docs/AI_COURSE_RECOMMENDATION.md)           | 추천 graph, scoring, variant, fallback       |
+| [API](SeoulMate_BE/docs/API.md)                                              | API endpoint와 request/response              |
+| [Database](SeoulMate_BE/docs/DATABASE.md)                                    | PostgreSQL schema와 table 역할               |
+| [Deployment](SeoulMate_BE/docs/DEPLOYMENT.md)                                | EC2/RDS 배포와 운영 절차                     |
+| [Security Groups](SeoulMate_BE/docs/AWS_SECURITY_GROUPS.md)                  | 포트와 접근 정책                             |

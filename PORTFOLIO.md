@@ -323,7 +323,7 @@ pod orchestration 자체가 현재 문제는 아니었다. 서버 한 대의 서
 
 후보 데이터셋 다양성이 최종 코스 다양성을 자동으로 보장하지 않는 문제도 별도로 측정했다. 기존 전역 장소 제외 방식은 중복은 없지만 평균 2.9개 variant만 반환했다. 역할·데이터셋·가격대·실내외·거리 유사도를 사용하는 MMR, variant별 목적함수, 코스 쌍별 Jaccard 제한으로 변경해 평균 variant를 **2.9개에서 3.9개로 34.48% 증가**시켰다. 10개 지역 중 9개가 4개 variant를 반환했고, 평균 category entropy는 **1.6552에서 1.6928로 2.27% 증가**했다. 전체 고유 장소 비율 98.33%, 평균 코스 간 Jaccard 0.0111로 낮은 중복을 유지했다.
 
-이 측정은 로컬 DB·외부 provider fallback 환경의 추천 graph 품질과 실행시간을 검증한 결과이며, Nginx·Express·네트워크·실제 외부 API 지연을 포함하는 운영 HTTP E2E 수치는 아니다. 운영 인프라 복구 후에는 별도 E2E runner로 같은 제약조건과 end-to-end latency를 측정할 수 있다. 결과 원본과 재현 절차는 [정량 검증 문서](SeoulMate_BE/docs/BENCHMARK.md)에 정리했다.
+이 측정은 로컬 DB·외부 provider fallback 환경의 추천 graph 품질과 실행시간을 검증한 결과이며, Nginx·Express·네트워크·실제 외부 API 지연을 포함하는 운영 HTTP E2E 수치는 아니다. 운영 인프라 복구 후에는 별도 E2E runner로 같은 제약조건과 end-to-end latency를 측정할 수 있다. Phase별 문제·가설·구현·전후 수치·한계와 재현 절차는 [정량 검증 총정리](SeoulMate_BE/docs/QUANTITATIVE_VALIDATION_SUMMARY.md)에, 개별 시나리오는 [정량 검증 문서](SeoulMate_BE/docs/BENCHMARK.md)에 정리했다.
 
 ## 설계 과정에서 얻은 점
 
@@ -348,12 +348,13 @@ pod orchestration 자체가 현재 문제는 아니었다. 서버 한 대의 서
 
 ## 문서
 
-| 문서                                                          | 내용                                      |
-| ------------------------------------------------------------- | ----------------------------------------- |
-| [인프라 아키텍처](SeoulMate_BE/docs/INFRASTRUCTURE.md)        | AWS, subnet, Nginx, PM2, CI/CD, 선택 근거 |
-| [정량 검증](SeoulMate_BE/docs/BENCHMARK.md)                   | 자동 테스트와 20개 E2E benchmark          |
-| [AI 추천 설계](SeoulMate_BE/docs/AI_COURSE_RECOMMENDATION.md) | graph, scoring, variant 상세              |
-| [API](SeoulMate_BE/docs/API.md)                               | endpoint와 request/response               |
-| [Database](SeoulMate_BE/docs/DATABASE.md)                     | schema와 table 역할                       |
-| [Deployment](SeoulMate_BE/docs/DEPLOYMENT.md)                 | EC2/RDS 배포 절차                         |
-| [Security Groups](SeoulMate_BE/docs/AWS_SECURITY_GROUPS.md)   | 네트워크 접근 정책                        |
+| 문서                                                                     | 내용                                      |
+| ------------------------------------------------------------------------ | ----------------------------------------- |
+| [인프라 아키텍처](SeoulMate_BE/docs/INFRASTRUCTURE.md)                   | AWS, subnet, Nginx, PM2, CI/CD, 선택 근거 |
+| [정량 검증](SeoulMate_BE/docs/BENCHMARK.md)                              | 자동 테스트와 20개 E2E benchmark          |
+| [정량 검증 총정리](SeoulMate_BE/docs/QUANTITATIVE_VALIDATION_SUMMARY.md) | Phase별 품질·성능·DB·다양성 전후 비교     |
+| [AI 추천 설계](SeoulMate_BE/docs/AI_COURSE_RECOMMENDATION.md)            | graph, scoring, variant 상세              |
+| [API](SeoulMate_BE/docs/API.md)                                          | endpoint와 request/response               |
+| [Database](SeoulMate_BE/docs/DATABASE.md)                                | schema와 table 역할                       |
+| [Deployment](SeoulMate_BE/docs/DEPLOYMENT.md)                            | EC2/RDS 배포 절차                         |
+| [Security Groups](SeoulMate_BE/docs/AWS_SECURITY_GROUPS.md)              | 네트워크 접근 정책                        |
