@@ -1,0 +1,20 @@
+services:
+  benchmark-db:
+    image: postgres:16-alpine
+    container_name: seoulmate-benchmark-db
+    environment:
+      POSTGRES_DB: seoulmate_benchmark
+      POSTGRES_USER: seoulmate
+      POSTGRES_PASSWORD: seoulmate-local-only
+    ports:
+      - "15433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U seoulmate -d seoulmate_benchmark"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - seoulmate-benchmark-data:/var/lib/postgresql/data
+
+volumes:
+  seoulmate-benchmark-data:

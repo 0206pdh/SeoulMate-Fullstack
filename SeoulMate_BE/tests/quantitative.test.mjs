@@ -15,6 +15,7 @@ import {
   isEligibleKakaoPlaceCategory
 } from "../dist/utils/publicDataCategory.js";
 import { validateSignupRequest } from "../dist/validators/user.validator.js";
+import { validateRecommendationNode } from "../dist/graphs/nodes/validateRecommendation.node.js";
 
 const placeCountCases = [
   [2, { min: 1, max: 2 }],
@@ -162,4 +163,54 @@ test("8자 미만 비밀번호는 거부한다", () => {
       validateSignupRequest({ email: "test@example.com", password: "short", nickname: "테스트" }),
     /password는 8자 이상/
   );
+});
+
+test("지역 alias를 사용해 망원과 마포구를 같은 권역으로 검증한다", async () => {
+  const result = await validateRecommendationNode({
+    parsedRequest: { region: "망원", durationHours: 2 },
+    candidatePlaces: [{ id: 1, title: "망원 테스트 장소", category: "공원", region: "마포구" }],
+    course: {
+      title: "테스트",
+      totalScore: 80,
+      estimatedBudget: 0,
+      places: [
+        {
+          order: 1,
+          placeId: 1,
+          title: "망원 테스트 장소",
+          category: "공원",
+          estimatedTimeMinute: 60
+        }
+      ]
+    },
+    warnings: [],
+    errors: []
+  });
+  assert.equal(result.validation?.isValid, true);
+});
+
+test("체류시간과 이동시간의 합이 요청 시간을 초과하면 거부한다", async () => {
+  const result = await validateRecommendationNode({
+    parsedRequest: { durationHours: 2 },
+    candidatePlaces: [{ id: 1, title: "테스트 장소", category: "문화" }],
+    course: {
+      title: "테스트",
+      totalScore: 80,
+      estimatedBudget: 0,
+      places: [
+        {
+          order: 1,
+          placeId: 1,
+          title: "테스트 장소",
+          category: "문화",
+          estimatedTimeMinute: 110,
+          moveTimeMinute: 20
+        }
+      ]
+    },
+    warnings: [],
+    errors: []
+  });
+  assert.equal(result.validation?.isValid, false);
+  assert.match(result.validation?.errors[0] ?? "", /요청 시간을 초과/);
 });

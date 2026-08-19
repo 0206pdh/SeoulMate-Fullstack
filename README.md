@@ -96,13 +96,17 @@ OpenAI는 다음 두 영역에만 관여합니다.
 ```bash
 cd SeoulMate_BE
 npm test
-npm run benchmark:recommendation
+npm run benchmark:db:setup
+npm run benchmark:direct
 ```
 
-- 결정론적 추천 규칙 자동 테스트: **34/34 통과**
+- 결정론적 추천 규칙 자동 테스트: **36/36 통과**
 - TypeScript build: 성공
 - ESLint: error 0건
-- E2E benchmark: 서울 주요 지역 20개 시나리오의 성공률, 제약조건 충족률, DB 장소 실재성, variant 다양성, snapshot 일관성과 p50/p95 latency 자동 산출
+- 서버 없는 Direct LangGraph benchmark: **20/20 성공**, validation·예산·시간·DB 실재성·추천 좌표·지역 alias 일치율 **모두 100%**
+- 로컬 PostgreSQL 데이터: **172,821개 장소 / 9개 데이터셋**, category 정규화율 **100%**, 좌표 보유율 **98.84%**
+- provider-fallback 처리시간: 평균 **1,774ms**, p50 **1,569ms**, p95 **2,930ms** (2026-08-19, 로컬 단일 실행)
+- 재현 가능한 원본 결과: [`direct-local.json`](SeoulMate_BE/reports/benchmark/direct-local.json), [`direct-local.md`](SeoulMate_BE/reports/benchmark/direct-local.md)
 
 지표 계산식과 실행 조건은 [정량 검증 문서](SeoulMate_BE/docs/BENCHMARK.md)를 참고하세요.
 

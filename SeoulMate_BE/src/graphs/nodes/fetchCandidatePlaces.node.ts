@@ -242,7 +242,7 @@ interface RegionProfile {
   aliases: string[];
 }
 
-interface RegionResolution {
+export interface RegionResolution {
   isSupported: boolean;
   districts: string[];
   aliases: string[];
@@ -654,7 +654,7 @@ const uniqueStrings = (items: string[]): string[] => [
   ...new Set(items.map((item) => item.trim()).filter(Boolean))
 ];
 
-const resolveRegion = (region?: string): RegionResolution | undefined => {
+export const resolveRegion = (region?: string): RegionResolution | undefined => {
   const rawRegion = region?.trim();
   if (!rawRegion) {
     return undefined;
@@ -714,7 +714,7 @@ const resolveRegion = (region?: string): RegionResolution | undefined => {
   };
 };
 
-const placeMatchesRegion = (
+export const placeMatchesRegion = (
   place: CandidatePlace,
   rawRegion: string | undefined,
   regionResolution: RegionResolution | undefined

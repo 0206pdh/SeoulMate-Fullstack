@@ -17,6 +17,8 @@
     "sync:weather": "npm run build && node dist/jobs/runWeatherSync.js",
     "sync:living-population": "npm run build && node dist/jobs/runLivingPopulationSync.js",
     "benchmark:recommendation": "node scripts/testRecommendationApi20.mjs",
+    "benchmark:direct": "npm run build && node scripts/benchmarkRecommendationDirect.mjs",
+    "benchmark:db:setup": "powershell -ExecutionPolicy Bypass -File scripts/setupLocalBenchmarkDb.ps1",
     "test": "npm run build && node --test tests/quantitative.test.mjs",
     "prepare": "node scripts/setupHusky.mjs",
     "lint": "eslint .",

@@ -313,11 +313,11 @@ pod orchestration 자체가 현재 문제는 아니었다. 서버 한 대의 서
 
 ## 정량 검증
 
-2026-08-19 기준 TypeScript 전체 build가 성공했고, 장소 수 경계값·category role 변환·KST 시간 분기·공공데이터/Kakao category 정규화·거리 fallback·scoring·회원가입 validation을 다루는 **34개 테스트가 모두 통과했다(34/34, 100%)**. ESLint는 error 0건이다.
+2026-08-19 기준 TypeScript 전체 build가 성공했고, 장소 수 경계값·category role 변환·KST 시간 분기·공공데이터/Kakao category 정규화·거리 fallback·scoring·회원가입 validation·지역 alias·코스 시간 상한을 다루는 **36개 테스트가 모두 통과했다(36/36, 100%)**. ESLint는 error 0건이다.
 
-추천 품질은 서울 주요 지역 20개 시나리오 benchmark로 측정하도록 자동화했다. 추천 성공률, 예산·시간 준수율, DB 장소 실재성, 좌표·Kakao 검증률, variant Jaccard 중복도, 상세조회 snapshot 일치율과 p50/p95 latency를 JSON과 Markdown으로 산출한다.
+운영 서버와 분리된 PostgreSQL 16 컨테이너에 9개 공공데이터셋의 장소 172,821건을 적재하고, HTTP와 인증 계층을 거치지 않고 compiled LangGraph를 직접 호출하는 benchmark를 만들었다. 서울 20개 지역 시나리오에서 **20/20 성공**, validation·예산·시간·DB 실재성·추천 좌표·지역 alias 일치율이 **각 100%**였다. 전체 데이터의 category 정규화율은 100%, 좌표 보유율은 98.84%였으며 provider key를 비운 fallback 조건의 처리시간은 평균 1,774ms, p50 1,569ms, p95 2,930ms였다.
 
-현재 E2E 실측값은 운영 EC2와 private RDS tunnel이 연결되지 않아 보류했다. 접근 불가능한 상태에서 성공률이나 latency를 추정값으로 기재하지 않고, 인프라 복구 후 동일 명령으로 재현 가능한 측정 체계를 포함했다. 자세한 지표 정의는 [정량 검증 문서](SeoulMate_BE/docs/BENCHMARK.md)에 정리했다.
+이 측정은 로컬 DB·외부 provider fallback 환경의 추천 graph 품질과 실행시간을 검증한 결과이며, Nginx·Express·네트워크·실제 외부 API 지연을 포함하는 운영 HTTP E2E 수치는 아니다. 운영 인프라 복구 후에는 별도 E2E runner로 같은 제약조건과 end-to-end latency를 측정할 수 있다. 결과 원본과 재현 절차는 [정량 검증 문서](SeoulMate_BE/docs/BENCHMARK.md)에 정리했다.
 
 ## 설계 과정에서 얻은 점
 

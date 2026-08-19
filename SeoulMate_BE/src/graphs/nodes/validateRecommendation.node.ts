@@ -5,6 +5,8 @@ import type {
   SeoulMateGraphUpdate
 } from "../recommendation.state";
 
+import { placeMatchesRegion, resolveRegion } from "./fetchCandidatePlaces.node";
+
 const placeText = (place?: CandidatePlace): string =>
   place
     ? [
@@ -59,13 +61,28 @@ export const validateRecommendationNode = async (
   }
 
   if (state.parsedRequest?.region && course?.places.length) {
-    const region = state.parsedRequest.region.toLowerCase();
-    const matched = course.places.some((coursePlace) =>
-      placeText(candidateById.get(coursePlace.placeId)).includes(region)
-    );
+    const regionResolution = resolveRegion(state.parsedRequest.region);
+    const matched = course.places.some((coursePlace) => {
+      const candidate = candidateById.get(coursePlace.placeId);
+      return candidate
+        ? placeMatchesRegion(candidate, state.parsedRequest?.region, regionResolution)
+        : false;
+    });
 
     if (!matched) {
       errors.push("추천 코스가 요청 지역 조건과 충분히 맞지 않습니다.");
+    }
+  }
+
+  if (course && state.parsedRequest?.durationHours !== undefined) {
+    const requestedDurationMinute = state.parsedRequest.durationHours * 60;
+    const courseDurationMinute = course.places.reduce(
+      (sum, place) => sum + place.estimatedTimeMinute + (place.moveTimeMinute ?? 0),
+      0
+    );
+
+    if (courseDurationMinute > requestedDurationMinute) {
+      errors.push("예상 체류시간과 이동시간의 합이 요청 시간을 초과했습니다.");
     }
   }
 
