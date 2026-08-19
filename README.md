@@ -91,6 +91,21 @@ OpenAI는 다음 두 영역에만 관여합니다.
 
 상세한 추천 설계는 [AI 코스 추천 문서](SeoulMate_BE/docs/AI_COURSE_RECOMMENDATION.md)를 참고하세요.
 
+## 정량 검증
+
+```bash
+cd SeoulMate_BE
+npm test
+npm run benchmark:recommendation
+```
+
+- 결정론적 추천 규칙 자동 테스트: **34/34 통과**
+- TypeScript build: 성공
+- ESLint: error 0건
+- E2E benchmark: 서울 주요 지역 20개 시나리오의 성공률, 제약조건 충족률, DB 장소 실재성, variant 다양성, snapshot 일관성과 p50/p95 latency 자동 산출
+
+지표 계산식과 실행 조건은 [정량 검증 문서](SeoulMate_BE/docs/BENCHMARK.md)를 참고하세요.
+
 ## 프로젝트 구조
 
 ```text
@@ -175,6 +190,7 @@ push(main)
 | ------------------------------------------------------------------ | ---------------------------------------- |
 | [Portfolio](PORTFOLIO.md)                                          | 문제 정의, 기여, LangGraph와 인프라 설계 |
 | [Infrastructure](SeoulMate_BE/docs/INFRASTRUCTURE.md)              | AWS 네트워크, Nginx, PM2, RDS, CI/CD     |
+| [Benchmark](SeoulMate_BE/docs/BENCHMARK.md)                        | 자동 테스트와 E2E 정량 평가              |
 | [AI Recommendation](SeoulMate_BE/docs/AI_COURSE_RECOMMENDATION.md) | 추천 graph, scoring, variant, fallback   |
 | [API](SeoulMate_BE/docs/API.md)                                    | API endpoint와 request/response          |
 | [Database](SeoulMate_BE/docs/DATABASE.md)                          | PostgreSQL schema와 table 역할           |

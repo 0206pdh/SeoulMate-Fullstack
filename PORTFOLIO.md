@@ -311,6 +311,14 @@ pod orchestration 자체가 현재 문제는 아니었다. 서버 한 대의 서
 
 이 방식은 degraded response가 전체 실패보다 낫다는 원칙을 따른다. fallback을 사용한 경우에는 provider와 fallback 여부를 state와 warning에 남겨 결과를 과신하지 않도록 했다.
 
+## 정량 검증
+
+2026-08-19 기준 TypeScript 전체 build가 성공했고, 장소 수 경계값·category role 변환·KST 시간 분기·공공데이터/Kakao category 정규화·거리 fallback·scoring·회원가입 validation을 다루는 **34개 테스트가 모두 통과했다(34/34, 100%)**. ESLint는 error 0건이다.
+
+추천 품질은 서울 주요 지역 20개 시나리오 benchmark로 측정하도록 자동화했다. 추천 성공률, 예산·시간 준수율, DB 장소 실재성, 좌표·Kakao 검증률, variant Jaccard 중복도, 상세조회 snapshot 일치율과 p50/p95 latency를 JSON과 Markdown으로 산출한다.
+
+현재 E2E 실측값은 운영 EC2와 private RDS tunnel이 연결되지 않아 보류했다. 접근 불가능한 상태에서 성공률이나 latency를 추정값으로 기재하지 않고, 인프라 복구 후 동일 명령으로 재현 가능한 측정 체계를 포함했다. 자세한 지표 정의는 [정량 검증 문서](SeoulMate_BE/docs/BENCHMARK.md)에 정리했다.
+
 ## 설계 과정에서 얻은 점
 
 첫째, LLM의 성능보다 LLM이 결정하지 않아야 할 영역을 정하는 것이 더 중요했다. 장소와 비용처럼 검증 가능한 사실은 데이터와 코드가 소유해야 한다.
@@ -337,6 +345,7 @@ pod orchestration 자체가 현재 문제는 아니었다. 서버 한 대의 서
 | 문서                                                          | 내용                                      |
 | ------------------------------------------------------------- | ----------------------------------------- |
 | [인프라 아키텍처](SeoulMate_BE/docs/INFRASTRUCTURE.md)        | AWS, subnet, Nginx, PM2, CI/CD, 선택 근거 |
+| [정량 검증](SeoulMate_BE/docs/BENCHMARK.md)                   | 자동 테스트와 20개 E2E benchmark          |
 | [AI 추천 설계](SeoulMate_BE/docs/AI_COURSE_RECOMMENDATION.md) | graph, scoring, variant 상세              |
 | [API](SeoulMate_BE/docs/API.md)                               | endpoint와 request/response               |
 | [Database](SeoulMate_BE/docs/DATABASE.md)                     | schema와 table 역할                       |

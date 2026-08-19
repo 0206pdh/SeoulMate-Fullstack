@@ -16,6 +16,8 @@
     "match:kakao-urls": "npm run build && node dist/jobs/runKakaoUrlMatching.js",
     "sync:weather": "npm run build && node dist/jobs/runWeatherSync.js",
     "sync:living-population": "npm run build && node dist/jobs/runLivingPopulationSync.js",
+    "benchmark:recommendation": "node scripts/testRecommendationApi20.mjs",
+    "test": "npm run build && node --test tests/quantitative.test.mjs",
     "prepare": "node scripts/setupHusky.mjs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
