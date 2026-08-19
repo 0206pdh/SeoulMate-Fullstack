@@ -114,6 +114,14 @@ npm run benchmark:direct
 
 전체 개선 과정과 단계별 전후 수치, 계산식, 한계와 재현 절차는 [정량 검증 총정리](SeoulMate_BE/docs/QUANTITATIVE_VALIDATION_SUMMARY.md)를 참고하세요. 개별 시나리오 정의는 [정량 검증 문서](SeoulMate_BE/docs/BENCHMARK.md)에 정리되어 있습니다.
 
+### 성능 개선 시각화
+
+![SeoulMate Grafana benchmark dashboard](docs/assets/benchmark/grafana-dashboard.png)
+
+![PostgreSQL execution plan tree](docs/assets/benchmark/postgresql-execution-plan.png)
+
+Graph latency, LangGraph node 병목, PostgreSQL query 감소, 추천 다양성의 개별 PNG·HTML과 Grafana 재현 방법은 [Benchmark 시각화 문서](SeoulMate_BE/docs/VISUALIZATION.md)에 정리했습니다.
+
 ## 프로젝트 구조
 
 ```text
@@ -200,6 +208,7 @@ push(main)
 | [Infrastructure](SeoulMate_BE/docs/INFRASTRUCTURE.md)                        | AWS 네트워크, Nginx, PM2, RDS, CI/CD         |
 | [Benchmark](SeoulMate_BE/docs/BENCHMARK.md)                                  | 자동 테스트와 E2E 정량 평가                  |
 | [Quantitative Summary](SeoulMate_BE/docs/QUANTITATIVE_VALIDATION_SUMMARY.md) | Phase별 품질·LangGraph·DB·다양성 검증 총정리 |
+| [Visualization](SeoulMate_BE/docs/VISUALIZATION.md)                          | 실행계획 트리·정적 차트·Grafana 재현         |
 | [Performance](SeoulMate_BE/docs/PERFORMANCE.md)                              | 노드·SQL 병목과 최적화 전후 실측             |
 | [Diversity](SeoulMate_BE/docs/DIVERSITY.md)                                  | MMR, variant 목적함수와 다양성 실측          |
 | [AI Recommendation](SeoulMate_BE/docs/AI_COURSE_RECOMMENDATION.md)           | 추천 graph, scoring, variant, fallback       |

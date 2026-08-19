@@ -1,0 +1,188 @@
+{
+  "annotations": { "list": [] },
+  "editable": false,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "seoulmate-benchmark" },
+      "fieldConfig": {
+        "defaults": { "color": { "mode": "palette-classic" }, "unit": "ms" },
+        "overrides": []
+      },
+      "gridPos": { "h": 9, "w": 8, "x": 0, "y": 0 },
+      "id": 1,
+      "options": {
+        "barRadius": 0.12,
+        "barWidth": 0.8,
+        "groupWidth": 0.7,
+        "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true },
+        "orientation": "auto",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": { "mode": "single", "sort": "none" },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "csvContent": "Phase,Average,p95\nBefore,1639.13,2389.70\nAfter,1193.39,1292.67",
+          "refId": "A",
+          "scenarioId": "csv_content"
+        }
+      ],
+      "title": "Graph Latency Before vs After",
+      "type": "barchart"
+    },
+    {
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "seoulmate-benchmark" },
+      "fieldConfig": {
+        "defaults": { "color": { "mode": "palette-classic" }, "unit": "ms" },
+        "overrides": []
+      },
+      "gridPos": { "h": 9, "w": 8, "x": 8, "y": 0 },
+      "id": 2,
+      "options": {
+        "barRadius": 0.12,
+        "barWidth": 0.8,
+        "groupWidth": 0.7,
+        "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true },
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": { "mode": "single", "sort": "none" },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "csvContent": "Node,Before,After\nparseUserRequest,169.82,0.08\nfetchCandidatePlaces,85.40,16.32\nfetchContextData,1359.06,1118.10",
+          "refId": "A",
+          "scenarioId": "csv_content"
+        }
+      ],
+      "title": "LangGraph Node Bottleneck",
+      "type": "barchart"
+    },
+    {
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "seoulmate-benchmark" },
+      "fieldConfig": {
+        "defaults": { "color": { "mode": "continuous-GrYlRd" }, "decimals": 2, "unit": "reqps" },
+        "overrides": []
+      },
+      "gridPos": { "h": 9, "w": 4, "x": 16, "y": 0 },
+      "id": 3,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "vertical",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "csvContent": "Phase,Throughput\nBefore,0.610\nAfter,0.838",
+          "refId": "A",
+          "scenarioId": "csv_content"
+        }
+      ],
+      "title": "Sequential Throughput (+37.38%)",
+      "type": "stat"
+    },
+    {
+      "gridPos": { "h": 9, "w": 4, "x": 20, "y": 0 },
+      "id": 4,
+      "options": {
+        "content": "# 39 / 39\n### deterministic tests\n\n# 20 / 20\n### regional scenarios\n\n**Validation · budget · duration: 100%**",
+        "mode": "markdown"
+      },
+      "title": "Quality Gates",
+      "type": "text"
+    },
+    {
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "seoulmate-benchmark" },
+      "fieldConfig": {
+        "defaults": { "color": { "mode": "palette-classic" }, "unit": "short" },
+        "overrides": []
+      },
+      "gridPos": { "h": 9, "w": 12, "x": 0, "y": 9 },
+      "id": 5,
+      "options": {
+        "barRadius": 0.1,
+        "barWidth": 0.8,
+        "groupWidth": 0.7,
+        "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true },
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": { "mode": "single", "sort": "none" },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "csvContent": "Metric,Before,After\nSQL queries,10,1\nExecution ms,301.317,13.182\nScan tuple (x1k),450.286,11.206\nHit blocks (x100),291.05,20.09",
+          "refId": "A",
+          "scenarioId": "csv_content"
+        }
+      ],
+      "title": "PostgreSQL Query Reduction (scaled where noted)",
+      "type": "barchart"
+    },
+    {
+      "datasource": { "type": "grafana-testdata-datasource", "uid": "seoulmate-benchmark" },
+      "fieldConfig": {
+        "defaults": { "color": { "mode": "palette-classic" }, "decimals": 2, "unit": "short" },
+        "overrides": []
+      },
+      "gridPos": { "h": 9, "w": 6, "x": 12, "y": 9 },
+      "id": 6,
+      "options": {
+        "barRadius": 0.12,
+        "barWidth": 0.8,
+        "groupWidth": 0.7,
+        "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true },
+        "orientation": "auto",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": { "mode": "single", "sort": "none" },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "csvContent": "Metric,Before,After\nAvg variants,2.9,3.9\nCategory entropy,1.6552,1.6928",
+          "refId": "A",
+          "scenarioId": "csv_content"
+        }
+      ],
+      "title": "Recommendation Diversity",
+      "type": "barchart"
+    },
+    {
+      "gridPos": { "h": 9, "w": 6, "x": 18, "y": 9 },
+      "id": 7,
+      "options": {
+        "content": "# 0.0111\n### Pairwise Jaccard\n\n**Unique place ratio** 98.33%\n\n**Budget compliance** 100%\n\n**Duration compliance** 100%",
+        "mode": "markdown"
+      },
+      "title": "Diversity Guardrails",
+      "type": "text"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 40,
+  "tags": ["seoulmate", "benchmark", "portfolio"],
+  "templating": { "list": [] },
+  "time": { "from": "now-6h", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "SeoulMate Quantitative Validation",
+  "uid": "seoulmate-benchmark",
+  "version": 1,
+  "weekStart": ""
+}

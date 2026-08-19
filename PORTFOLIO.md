@@ -325,6 +325,10 @@ pod orchestration 자체가 현재 문제는 아니었다. 서버 한 대의 서
 
 이 측정은 로컬 DB·외부 provider fallback 환경의 추천 graph 품질과 실행시간을 검증한 결과이며, Nginx·Express·네트워크·실제 외부 API 지연을 포함하는 운영 HTTP E2E 수치는 아니다. 운영 인프라 복구 후에는 별도 E2E runner로 같은 제약조건과 end-to-end latency를 측정할 수 있다. Phase별 문제·가설·구현·전후 수치·한계와 재현 절차는 [정량 검증 총정리](SeoulMate_BE/docs/QUANTITATIVE_VALIDATION_SUMMARY.md)에, 개별 시나리오는 [정량 검증 문서](SeoulMate_BE/docs/BENCHMARK.md)에 정리했다.
 
+![SeoulMate 정량 검증 Grafana dashboard](docs/assets/benchmark/grafana-dashboard.png)
+
+![PostgreSQL 실행계획 전후 트리](docs/assets/benchmark/postgresql-execution-plan.png)
+
 ## 설계 과정에서 얻은 점
 
 첫째, LLM의 성능보다 LLM이 결정하지 않아야 할 영역을 정하는 것이 더 중요했다. 장소와 비용처럼 검증 가능한 사실은 데이터와 코드가 소유해야 한다.
@@ -353,6 +357,7 @@ pod orchestration 자체가 현재 문제는 아니었다. 서버 한 대의 서
 | [인프라 아키텍처](SeoulMate_BE/docs/INFRASTRUCTURE.md)                   | AWS, subnet, Nginx, PM2, CI/CD, 선택 근거 |
 | [정량 검증](SeoulMate_BE/docs/BENCHMARK.md)                              | 자동 테스트와 20개 E2E benchmark          |
 | [정량 검증 총정리](SeoulMate_BE/docs/QUANTITATIVE_VALIDATION_SUMMARY.md) | Phase별 품질·성능·DB·다양성 전후 비교     |
+| [시각화](SeoulMate_BE/docs/VISUALIZATION.md)                             | 실행계획·차트·Grafana 실행 및 캡처        |
 | [AI 추천 설계](SeoulMate_BE/docs/AI_COURSE_RECOMMENDATION.md)            | graph, scoring, variant 상세              |
 | [API](SeoulMate_BE/docs/API.md)                                          | endpoint와 request/response               |
 | [Database](SeoulMate_BE/docs/DATABASE.md)                                | schema와 table 역할                       |

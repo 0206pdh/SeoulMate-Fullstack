@@ -100,7 +100,8 @@ const main = async () => {
       executionTimeMs: root["Execution Time"],
       rowsVisited: scanMetrics(root.Plan),
       sharedHitBlocks: root.Plan["Shared Hit Blocks"] ?? 0,
-      sharedReadBlocks: root.Plan["Shared Read Blocks"] ?? 0
+      sharedReadBlocks: root.Plan["Shared Read Blocks"] ?? 0,
+      plan: root.Plan
     };
   };
   const explainNormalized = async () => {
@@ -118,7 +119,8 @@ const main = async () => {
       sharedHitBlocks: root.Plan["Shared Hit Blocks"] ?? 0,
       sharedReadBlocks: root.Plan["Shared Read Blocks"] ?? 0,
       resultCount: candidates.rows.length,
-      representedDatasetCount: new Set(candidates.rows.map((row) => row.source_dataset)).size
+      representedDatasetCount: new Set(candidates.rows.map((row) => row.source_dataset)).size,
+      plan: root.Plan
     };
   };
 
@@ -137,14 +139,38 @@ const main = async () => {
       sharedReadBlocks: primary.sharedReadBlocks + sum(diversity, "sharedReadBlocks")
     };
     const after = { queryCount: 1, ...(await explainNormalized()) };
+    const planReport = {
+      measuredAt: new Date().toISOString(),
+      representativeRegion: "성수 / 성동구",
+      method: "EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)",
+      before: {
+        primary: { ...primary, label: "primary (all datasets)" },
+        diversity: diversity.map((result, index) => ({
+          ...result,
+          label: `diversity (${sourceDatasets[index]})`
+        }))
+      },
+      after
+    };
+    const withoutPlan = (metricsWithPlan) => {
+      const metrics = { ...metricsWithPlan };
+      delete metrics.plan;
+      return metrics;
+    };
+    const beforeSummary = {
+      ...before,
+      primary: withoutPlan(primary),
+      diversity: diversity.map(withoutPlan)
+    };
+    const afterSummary = withoutPlan(after);
     const reductionPct = (beforeValue, afterValue) =>
       Number((((beforeValue - afterValue) / beforeValue) * 100).toFixed(2));
     const report = {
       measuredAt: new Date().toISOString(),
       representativeRegion: "성수 / 성동구",
       method: "EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)",
-      before,
-      after,
+      before: beforeSummary,
+      after: afterSummary,
       improvement: {
         queryCountReductionPct: reductionPct(before.queryCount, after.queryCount),
         executionTimeReductionPct: reductionPct(before.executionTimeMs, after.executionTimeMs),
@@ -155,6 +181,11 @@ const main = async () => {
     await writeFile(
       "reports/benchmark/candidate-explain.json",
       `${JSON.stringify(report, null, 2)}\n`,
+      "utf8"
+    );
+    await writeFile(
+      "reports/benchmark/candidate-explain-plans.json",
+      `${JSON.stringify(planReport, null, 2)}\n`,
       "utf8"
     );
     console.log(JSON.stringify(report, null, 2));
