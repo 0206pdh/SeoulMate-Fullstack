@@ -1,6 +1,6 @@
 {
   "summary": {
-    "measuredAt": "2026-08-19T14:40:28.706Z",
+    "measuredAt": "2026-08-19T14:59:59.240Z",
     "mode": "direct-provider-fallback",
     "scenarioCount": 20,
     "successCount": 20,
@@ -12,12 +12,13 @@
     "coordinateCoveragePct": 100,
     "regionAliasMatchPct": 100,
     "routeFallbackRatePct": 100,
-    "averageCandidateCount": 54.95,
+    "averageCandidateCount": 25.75,
+    "averageCandidateDatasetCount": 2.7,
     "latencyMs": {
-      "average": 1245,
-      "p50": 1215,
-      "p95": 1415,
-      "max": 1526
+      "average": 1195,
+      "p50": 1179,
+      "p95": 1259,
+      "max": 1347
     },
     "dataQuality": {
       "totalPlaces": 172821,
@@ -34,32 +35,11 @@
       "validationPassed": true,
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
-      "candidateCount": 80,
-      "placeCount": 2,
-      "estimatedBudget": 18000,
-      "totalDurationMinute": 135,
-      "budgetCompliant": true,
-      "durationCompliant": true,
-      "groundedCount": 2,
-      "coordinateCount": 2,
-      "regionMatchedCount": 2,
-      "routeFallback": true,
-      "weatherSource": "shortTerm",
-      "warningCount": 1,
-      "error": null,
-      "latencyMs": 1357
-    },
-    {
-      "caseNo": 2,
-      "region": "홍대",
-      "success": true,
-      "validationPassed": true,
-      "validationErrors": [],
-      "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
-      "candidateCount": 79,
+      "candidateCount": 40,
+      "candidateDatasetCount": 5,
       "placeCount": 3,
-      "estimatedBudget": 27000,
-      "totalDurationMinute": 188,
+      "estimatedBudget": 18000,
+      "totalDurationMinute": 194,
       "budgetCompliant": true,
       "durationCompliant": true,
       "groundedCount": 3,
@@ -69,7 +49,30 @@
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1304
+      "latencyMs": 1347
+    },
+    {
+      "caseNo": 2,
+      "region": "홍대",
+      "success": true,
+      "validationPassed": true,
+      "validationErrors": [],
+      "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
+      "candidateCount": 36,
+      "candidateDatasetCount": 3,
+      "placeCount": 3,
+      "estimatedBudget": 18000,
+      "totalDurationMinute": 208,
+      "budgetCompliant": true,
+      "durationCompliant": true,
+      "groundedCount": 3,
+      "coordinateCount": 3,
+      "regionMatchedCount": 3,
+      "routeFallback": true,
+      "weatherSource": "shortTerm",
+      "warningCount": 1,
+      "error": null,
+      "latencyMs": 1179
     },
     {
       "caseNo": 3,
@@ -78,10 +81,11 @@
       "validationPassed": true,
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
-      "candidateCount": 80,
+      "candidateCount": 43,
+      "candidateDatasetCount": 4,
       "placeCount": 2,
-      "estimatedBudget": 18000,
-      "totalDurationMinute": 109,
+      "estimatedBudget": 24000,
+      "totalDurationMinute": 104,
       "budgetCompliant": true,
       "durationCompliant": true,
       "groundedCount": 2,
@@ -91,7 +95,7 @@
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1241
+      "latencyMs": 1215
     },
     {
       "caseNo": 4,
@@ -101,6 +105,7 @@
       "validationErrors": [],
       "validationWarnings": [],
       "candidateCount": 3,
+      "candidateDatasetCount": 1,
       "placeCount": 2,
       "estimatedBudget": 0,
       "totalDurationMinute": 141,
@@ -113,7 +118,7 @@
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1151
+      "latencyMs": 1170
     },
     {
       "caseNo": 5,
@@ -122,10 +127,11 @@
       "validationPassed": true,
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
-      "candidateCount": 57,
+      "candidateCount": 44,
+      "candidateDatasetCount": 5,
       "placeCount": 3,
-      "estimatedBudget": 33000,
-      "totalDurationMinute": 229,
+      "estimatedBudget": 24000,
+      "totalDurationMinute": 205,
       "budgetCompliant": true,
       "durationCompliant": true,
       "groundedCount": 3,
@@ -135,7 +141,7 @@
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1152
+      "latencyMs": 1221
     },
     {
       "caseNo": 6,
@@ -144,10 +150,11 @@
       "validationPassed": true,
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
-      "candidateCount": 71,
+      "candidateCount": 21,
+      "candidateDatasetCount": 2,
       "placeCount": 3,
-      "estimatedBudget": 39000,
-      "totalDurationMinute": 204,
+      "estimatedBudget": 33000,
+      "totalDurationMinute": 216,
       "budgetCompliant": true,
       "durationCompliant": true,
       "groundedCount": 3,
@@ -157,7 +164,7 @@
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1215
+      "latencyMs": 1151
     },
     {
       "caseNo": 7,
@@ -167,6 +174,7 @@
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
       "candidateCount": 6,
+      "candidateDatasetCount": 1,
       "placeCount": 2,
       "estimatedBudget": 0,
       "totalDurationMinute": 125,
@@ -179,7 +187,7 @@
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1149
+      "latencyMs": 1211
     },
     {
       "caseNo": 8,
@@ -188,10 +196,11 @@
       "validationPassed": true,
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
-      "candidateCount": 80,
+      "candidateCount": 24,
+      "candidateDatasetCount": 2,
       "placeCount": 3,
       "estimatedBudget": 27000,
-      "totalDurationMinute": 195,
+      "totalDurationMinute": 198,
       "budgetCompliant": true,
       "durationCompliant": true,
       "groundedCount": 3,
@@ -201,7 +210,7 @@
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1308
+      "latencyMs": 1162
     },
     {
       "caseNo": 9,
@@ -210,20 +219,21 @@
       "validationPassed": true,
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
-      "candidateCount": 73,
-      "placeCount": 1,
-      "estimatedBudget": 9000,
-      "totalDurationMinute": 45,
+      "candidateCount": 42,
+      "candidateDatasetCount": 5,
+      "placeCount": 2,
+      "estimatedBudget": 24000,
+      "totalDurationMinute": 112,
       "budgetCompliant": true,
       "durationCompliant": true,
-      "groundedCount": 1,
-      "coordinateCount": 1,
-      "regionMatchedCount": 1,
+      "groundedCount": 2,
+      "coordinateCount": 2,
+      "regionMatchedCount": 2,
       "routeFallback": true,
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1223
+      "latencyMs": 1171
     },
     {
       "caseNo": 10,
@@ -232,10 +242,11 @@
       "validationPassed": true,
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
-      "candidateCount": 77,
+      "candidateCount": 33,
+      "candidateDatasetCount": 3,
       "placeCount": 3,
-      "estimatedBudget": 27000,
-      "totalDurationMinute": 211,
+      "estimatedBudget": 18000,
+      "totalDurationMinute": 232,
       "budgetCompliant": true,
       "durationCompliant": true,
       "groundedCount": 3,
@@ -245,7 +256,7 @@
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1415
+      "latencyMs": 1257
     },
     {
       "caseNo": 11,
@@ -254,7 +265,8 @@
       "validationPassed": true,
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
-      "candidateCount": 12,
+      "candidateCount": 11,
+      "candidateDatasetCount": 1,
       "placeCount": 2,
       "estimatedBudget": 0,
       "totalDurationMinute": 120,
@@ -267,7 +279,7 @@
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1173
+      "latencyMs": 1209
     },
     {
       "caseNo": 12,
@@ -277,6 +289,7 @@
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
       "candidateCount": 9,
+      "candidateDatasetCount": 2,
       "placeCount": 3,
       "estimatedBudget": 0,
       "totalDurationMinute": 197,
@@ -289,7 +302,7 @@
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1184
+      "latencyMs": 1199
     },
     {
       "caseNo": 13,
@@ -298,10 +311,11 @@
       "validationPassed": true,
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
-      "candidateCount": 76,
+      "candidateCount": 46,
+      "candidateDatasetCount": 5,
       "placeCount": 3,
-      "estimatedBudget": 33000,
-      "totalDurationMinute": 220,
+      "estimatedBudget": 24000,
+      "totalDurationMinute": 203,
       "budgetCompliant": true,
       "durationCompliant": true,
       "groundedCount": 3,
@@ -311,7 +325,7 @@
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1206
+      "latencyMs": 1168
     },
     {
       "caseNo": 14,
@@ -320,10 +334,11 @@
       "validationPassed": true,
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
-      "candidateCount": 68,
+      "candidateCount": 12,
+      "candidateDatasetCount": 1,
       "placeCount": 2,
       "estimatedBudget": 0,
-      "totalDurationMinute": 143,
+      "totalDurationMinute": 146,
       "budgetCompliant": true,
       "durationCompliant": true,
       "groundedCount": 2,
@@ -333,7 +348,7 @@
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1161
+      "latencyMs": 1170
     },
     {
       "caseNo": 15,
@@ -342,20 +357,21 @@
       "validationPassed": true,
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
-      "candidateCount": 71,
-      "placeCount": 1,
-      "estimatedBudget": 9000,
-      "totalDurationMinute": 45,
+      "candidateCount": 49,
+      "candidateDatasetCount": 5,
+      "placeCount": 2,
+      "estimatedBudget": 18000,
+      "totalDurationMinute": 114,
       "budgetCompliant": true,
       "durationCompliant": true,
-      "groundedCount": 1,
-      "coordinateCount": 1,
-      "regionMatchedCount": 1,
+      "groundedCount": 2,
+      "coordinateCount": 2,
+      "regionMatchedCount": 2,
       "routeFallback": true,
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1254
+      "latencyMs": 1187
     },
     {
       "caseNo": 16,
@@ -364,10 +380,11 @@
       "validationPassed": true,
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
-      "candidateCount": 73,
+      "candidateCount": 22,
+      "candidateDatasetCount": 2,
       "placeCount": 3,
-      "estimatedBudget": 18000,
-      "totalDurationMinute": 198,
+      "estimatedBudget": 27000,
+      "totalDurationMinute": 183,
       "budgetCompliant": true,
       "durationCompliant": true,
       "groundedCount": 3,
@@ -377,7 +394,7 @@
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1222
+      "latencyMs": 1150
     },
     {
       "caseNo": 17,
@@ -385,24 +402,22 @@
       "success": true,
       "validationPassed": true,
       "validationErrors": [],
-      "validationWarnings": [
-        "일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다.",
-        "장소 간 이동 시간이 45분 이상인 구간이 있어 피로도가 높을 수 있습니다."
-      ],
-      "candidateCount": 80,
-      "placeCount": 2,
-      "estimatedBudget": 24000,
-      "totalDurationMinute": 177,
+      "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
+      "candidateCount": 24,
+      "candidateDatasetCount": 2,
+      "placeCount": 3,
+      "estimatedBudget": 39000,
+      "totalDurationMinute": 223,
       "budgetCompliant": true,
       "durationCompliant": true,
-      "groundedCount": 2,
-      "coordinateCount": 2,
-      "regionMatchedCount": 2,
+      "groundedCount": 3,
+      "coordinateCount": 3,
+      "regionMatchedCount": 3,
       "routeFallback": true,
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1526
+      "latencyMs": 1259
     },
     {
       "caseNo": 18,
@@ -411,7 +426,8 @@
       "validationPassed": true,
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
-      "candidateCount": 22,
+      "candidateCount": 12,
+      "candidateDatasetCount": 1,
       "placeCount": 2,
       "estimatedBudget": 0,
       "totalDurationMinute": 147,
@@ -424,7 +440,7 @@
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1137
+      "latencyMs": 1143
     },
     {
       "caseNo": 19,
@@ -434,6 +450,7 @@
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
       "candidateCount": 5,
+      "candidateDatasetCount": 1,
       "placeCount": 2,
       "estimatedBudget": 0,
       "totalDurationMinute": 88,
@@ -446,7 +463,7 @@
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1177
+      "latencyMs": 1142
     },
     {
       "caseNo": 20,
@@ -455,10 +472,11 @@
       "validationPassed": true,
       "validationErrors": [],
       "validationWarnings": ["일부 장소의 운영시간 데이터가 없어 방문 전 확인이 필요합니다."],
-      "candidateCount": 77,
+      "candidateCount": 33,
+      "candidateDatasetCount": 3,
       "placeCount": 3,
-      "estimatedBudget": 27000,
-      "totalDurationMinute": 182,
+      "estimatedBudget": 18000,
+      "totalDurationMinute": 211,
       "budgetCompliant": true,
       "durationCompliant": true,
       "groundedCount": 3,
@@ -468,7 +486,7 @@
       "weatherSource": "shortTerm",
       "warningCount": 1,
       "error": null,
-      "latencyMs": 1348
+      "latencyMs": 1181
     }
   ]
 }

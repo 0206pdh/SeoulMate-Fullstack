@@ -21,8 +21,12 @@ if ($health -ne "healthy") {
 $migrationFiles = Get-ChildItem -LiteralPath $migrationDirectory -Filter "*.sql" | Sort-Object Name
 foreach ($migration in $migrationFiles) {
   Write-Host "Applying $($migration.Name)"
-  Get-Content -Raw -LiteralPath $migration.FullName |
-    docker exec -i seoulmate-benchmark-db psql -v ON_ERROR_STOP=1 -U seoulmate -d seoulmate_benchmark
+  $containerMigrationPath = "/tmp/$($migration.Name)"
+  docker cp $migration.FullName "seoulmate-benchmark-db:$containerMigrationPath"
+  if ($LASTEXITCODE -ne 0) {
+    throw "Migration copy failed: $($migration.Name)"
+  }
+  docker exec seoulmate-benchmark-db psql -v ON_ERROR_STOP=1 -U seoulmate -d seoulmate_benchmark -f $containerMigrationPath
   if ($LASTEXITCODE -ne 0) {
     throw "Migration failed: $($migration.Name)"
   }

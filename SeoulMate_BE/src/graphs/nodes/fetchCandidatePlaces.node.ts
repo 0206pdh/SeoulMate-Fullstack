@@ -787,45 +787,36 @@ export const fetchCandidatePlacesNode = async (
   );
 
   try {
-    const primary = await publicDataRepository.findRecommendationCandidates({
-      region: request?.region,
-      districts: regionResolution?.districts,
-      regionAliases: regionResolution?.aliases,
-      includeTitleRegionMatch: true,
-      sourceDatasets,
-      keywords,
-      pageSize: 80
-    });
-
-    const regionalFallback =
-      primary.length >= 8 || !hasRegionFilter
-        ? []
-        : await publicDataRepository.findRecommendationCandidates({
+    const canUseNormalizedSearch = Boolean(
+      regionResolution?.districts.length && sourceDatasets.length
+    );
+    const findRegionalCandidates = (searchKeywords?: string[]) =>
+      canUseNormalizedSearch
+        ? publicDataRepository.findNormalizedRecommendationCandidates({
+            districts: regionResolution?.districts ?? [],
+            regionAliases: uniqueStrings([
+              request?.region ?? "",
+              ...(regionResolution?.aliases ?? [])
+            ]),
+            sourceDatasets,
+            keywords: searchKeywords,
+            pageSize: 80,
+            perDatasetLimit: 12
+          })
+        : publicDataRepository.findRecommendationCandidates({
             region: request?.region,
             districts: regionResolution?.districts,
             regionAliases: regionResolution?.aliases,
             includeTitleRegionMatch: true,
             sourceDatasets,
+            keywords: searchKeywords,
             pageSize: 80
           });
 
-    const diverseRegionalCandidates =
-      hasRegionFilter && primary.length < 40
-        ? (
-            await Promise.all(
-              sourceDatasets.map((sourceDataset) =>
-                publicDataRepository.findRecommendationCandidates({
-                  region: request?.region,
-                  districts: regionResolution?.districts,
-                  regionAliases: regionResolution?.aliases,
-                  includeTitleRegionMatch: true,
-                  sourceDatasets: [sourceDataset],
-                  pageSize: 12
-                })
-              )
-            )
-          ).flat()
-        : [];
+    const primary = await findRegionalCandidates(keywords);
+
+    const regionalFallback =
+      primary.length >= 8 || !hasRegionFilter ? [] : await findRegionalCandidates();
 
     const generalFallback =
       primary.length >= 8 || hasRegionFilter
@@ -847,7 +838,6 @@ export const fetchCandidatePlacesNode = async (
     const candidatePlaces = uniqueById([
       ...primary,
       ...regionalFallback,
-      ...diverseRegionalCandidates,
       ...generalFallback,
       ...broadFallback
     ])

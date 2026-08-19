@@ -27,6 +27,15 @@ export interface RecommendationCandidateSearchParams {
   pageSize?: number;
 }
 
+export interface NormalizedRecommendationCandidateSearchParams {
+  districts: string[];
+  regionAliases?: string[];
+  sourceDatasets: string[];
+  keywords?: string[];
+  pageSize?: number;
+  perDatasetLimit?: number;
+}
+
 const mapPublicDataset = (row: Record<string, unknown>): PublicDataset => ({
   id: Number(row.id),
   sourceDataset: (row.source_dataset as string | null) ?? null,
@@ -246,6 +255,72 @@ export const publicDataRepository = {
         ORDER BY ${orderClause}
         LIMIT $${limitIndex}`,
       values
+    );
+
+    return result.rows.map(mapPublicDataset);
+  },
+
+  async findNormalizedRecommendationCandidates(
+    params: NormalizedRecommendationCandidateSearchParams
+  ): Promise<PublicDataset[]> {
+    const districts = [...new Set(params.districts.map((item) => item.trim()).filter(Boolean))];
+    const sourceDatasets = [
+      ...new Set(params.sourceDatasets.map((item) => item.trim()).filter(Boolean))
+    ];
+    if (!districts.length || !sourceDatasets.length) {
+      return [];
+    }
+
+    const aliasPatterns = (params.regionAliases ?? [])
+      .map((item) => item.trim())
+      .filter(Boolean)
+      .map((item) => `%${item.toLowerCase()}%`);
+    const keywordPatterns = (params.keywords ?? [])
+      .map((item) => item.trim())
+      .filter(Boolean)
+      .map((item) => `%${item.toLowerCase()}%`);
+    const perDatasetLimit = Math.max(1, Math.min(params.perDatasetLimit ?? 12, 30));
+    const pageSize = Math.max(1, Math.min(params.pageSize ?? 80, 120));
+
+    const result = await db.query(
+      `WITH dataset_sources AS (
+         SELECT unnest($1::text[]) AS source_dataset
+       ), candidate_ids AS (
+         SELECT candidate.id,
+                candidate.region_rank,
+                candidate.updated_at
+           FROM dataset_sources AS dataset
+           CROSS JOIN LATERAL (
+             SELECT pd.id,
+                    CASE
+                      WHEN cardinality($3::text[]) > 0
+                       AND pd.region_search_text ILIKE ANY($3::text[])
+                      THEN 0 ELSE 1
+                    END AS region_rank,
+                    pd.updated_at
+               FROM public_data AS pd
+              WHERE pd.source_dataset = dataset.source_dataset
+                AND pd.district_name = ANY($2::text[])
+                AND pd.latitude IS NOT NULL
+                AND pd.longitude IS NOT NULL
+                AND (
+                  cardinality($4::text[]) = 0
+                  OR pd.search_text ILIKE ANY($4::text[])
+                )
+              ORDER BY region_rank, pd.updated_at DESC, pd.id DESC
+              LIMIT $5
+           ) AS candidate
+       ), selected_ids AS (
+         SELECT id, region_rank, updated_at
+           FROM candidate_ids
+          ORDER BY region_rank, updated_at DESC, id DESC
+          LIMIT $6
+       )
+       SELECT pd.*
+         FROM selected_ids AS selected
+         JOIN public_data AS pd ON pd.id = selected.id
+        ORDER BY selected.region_rank, selected.updated_at DESC, selected.id DESC`,
+      [sourceDatasets, districts, aliasPatterns, keywordPatterns, perDatasetLimit, pageSize]
     );
 
     return result.rows.map(mapPublicDataset);

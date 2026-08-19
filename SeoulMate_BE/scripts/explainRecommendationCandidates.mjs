@@ -55,6 +55,39 @@ const main = async () => {
        ELSE 1
      END, updated_at DESC, id DESC
      LIMIT 12`;
+  const normalizedSql = `
+    WITH dataset_sources AS (
+      SELECT unnest($1::text[]) AS source_dataset
+    ), candidate_ids AS (
+      SELECT candidate.id, candidate.region_rank, candidate.updated_at
+        FROM dataset_sources AS dataset
+        CROSS JOIN LATERAL (
+          SELECT pd.id,
+                 CASE
+                   WHEN cardinality($3::text[]) > 0
+                    AND pd.region_search_text ILIKE ANY($3::text[])
+                   THEN 0 ELSE 1
+                 END AS region_rank,
+                 pd.updated_at
+            FROM public_data AS pd
+           WHERE pd.source_dataset = dataset.source_dataset
+             AND pd.district_name = ANY($2::text[])
+             AND pd.latitude IS NOT NULL
+             AND pd.longitude IS NOT NULL
+             AND (cardinality($4::text[]) = 0 OR pd.search_text ILIKE ANY($4::text[]))
+           ORDER BY region_rank, pd.updated_at DESC, pd.id DESC
+           LIMIT $5
+        ) AS candidate
+    ), selected_ids AS (
+      SELECT id, region_rank, updated_at
+        FROM candidate_ids
+       ORDER BY region_rank, updated_at DESC, id DESC
+       LIMIT $6
+    )
+    SELECT pd.*
+      FROM selected_ids AS selected
+      JOIN public_data AS pd ON pd.id = selected.id
+     ORDER BY selected.region_rank, selected.updated_at DESC, selected.id DESC`;
   const explain = async (sql, datasets) => {
     const result = await db.query(`EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) ${sql}`, [
       ["성동구"],
@@ -68,6 +101,24 @@ const main = async () => {
       rowsVisited: scanMetrics(root.Plan),
       sharedHitBlocks: root.Plan["Shared Hit Blocks"] ?? 0,
       sharedReadBlocks: root.Plan["Shared Read Blocks"] ?? 0
+    };
+  };
+  const explainNormalized = async () => {
+    const parameters = [sourceDatasets, ["성동구"], ["%성수%", "%성동구%"], [], 12, 80];
+    const result = await db.query(
+      `EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) ${normalizedSql}`,
+      parameters
+    );
+    const root = result.rows[0]["QUERY PLAN"][0];
+    const candidates = await db.query(normalizedSql, parameters);
+    return {
+      planningTimeMs: root["Planning Time"],
+      executionTimeMs: root["Execution Time"],
+      rowsVisited: scanMetrics(root.Plan),
+      sharedHitBlocks: root.Plan["Shared Hit Blocks"] ?? 0,
+      sharedReadBlocks: root.Plan["Shared Read Blocks"] ?? 0,
+      resultCount: candidates.rows.length,
+      representedDatasetCount: new Set(candidates.rows.map((row) => row.source_dataset)).size
     };
   };
 
@@ -85,7 +136,7 @@ const main = async () => {
       sharedHitBlocks: primary.sharedHitBlocks + sum(diversity, "sharedHitBlocks"),
       sharedReadBlocks: primary.sharedReadBlocks + sum(diversity, "sharedReadBlocks")
     };
-    const after = { queryCount: 1, ...primary };
+    const after = { queryCount: 1, ...(await explainNormalized()) };
     const reductionPct = (beforeValue, afterValue) =>
       Number((((beforeValue - afterValue) / beforeValue) * 100).toFixed(2));
     const report = {

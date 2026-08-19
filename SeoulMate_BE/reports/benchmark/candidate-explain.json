@@ -1,26 +1,28 @@
 {
-  "measuredAt": "2026-08-19T14:39:50.404Z",
+  "measuredAt": "2026-08-19T14:59:22.286Z",
   "representativeRegion": "성수 / 성동구",
   "method": "EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)",
   "before": {
     "queryCount": 10,
-    "executionTimeMs": 304.70799999999997,
-    "rowsVisited": 449789,
-    "sharedHitBlocks": 39867,
-    "sharedReadBlocks": 63418
+    "executionTimeMs": 301.317,
+    "rowsVisited": 450286,
+    "sharedHitBlocks": 29105,
+    "sharedReadBlocks": 42452
   },
   "after": {
     "queryCount": 1,
-    "planningTimeMs": 3.653,
-    "executionTimeMs": 121.189,
-    "rowsVisited": 172821,
-    "sharedHitBlocks": 15526,
-    "sharedReadBlocks": 30879
+    "planningTimeMs": 1.028,
+    "executionTimeMs": 13.182,
+    "rowsVisited": 11206,
+    "sharedHitBlocks": 2009,
+    "sharedReadBlocks": 93,
+    "resultCount": 55,
+    "representedDatasetCount": 6
   },
   "improvement": {
     "queryCountReductionPct": 90,
-    "executionTimeReductionPct": 60.23,
-    "rowsVisitedReductionPct": 61.58,
-    "sharedHitBlocksReductionPct": 61.06
+    "executionTimeReductionPct": 95.63,
+    "rowsVisitedReductionPct": 97.51,
+    "sharedHitBlocksReductionPct": 93.1
   }
 }

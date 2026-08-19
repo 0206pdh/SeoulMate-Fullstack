@@ -89,8 +89,12 @@ source_dataset   varchar(100)   -- 원본 API/파일 식별자 (예: LOCALDATA_0
 source_record_id varchar(150)   -- 원본 레코드 고유 키
 title            varchar(255)  NOT NULL
 category         varchar(100)  NOT NULL   -- DATASET_CATEGORY 상수값
-region           varchar(50)              -- 구 단위 (서울특별시 내)
-address          text
+  region           varchar(50)              -- 구 단위 (서울특별시 내)
+  address          text
+  district_name    varchar(20)              -- trigger가 추출한 서울 자치구
+  district_code    varchar(5)               -- 자치구 행정표준코드
+  region_search_text text                   -- 지역 alias 검색용 정규화 문서
+  search_text      text                     -- 추천 후보 검색용 정규화 문서
 latitude         numeric(10,7)
 longitude        numeric(10,7)            -- WGS84 기준
 source           varchar(100)             -- API 출처 레이블
@@ -110,7 +114,12 @@ UNIQUE (source_dataset, source_record_id)
 | `idx_public_data_region`    | `region`                           | 지역 필터링          |
 | `idx_public_data_title_tsv` | `to_tsvector('simple', title)` GIN | 한국어 제목 전문검색 |
 
-**트리거**: `updated_at` 자동 갱신 (`set_current_timestamp_updated_at`)
+**트리거**:
+
+- `updated_at` 자동 갱신 (`set_current_timestamp_updated_at`)
+- insert/update 시 자치구 코드와 검색 문서를 생성 (`normalize_public_data_search_columns`)
+
+추천 후보 조회는 `district_name` exact match로 지역 범위를 먼저 줄이고, `source_dataset`별 LATERAL quota에서 ID만 선정한 뒤 선택된 ID의 상세 데이터만 JOIN한다. 따라서 요청 시 `metadata::text` 전체 변환과 대형 JSON을 포함한 광범위한 `SELECT *` 정렬을 피한다.
 
 ---
 
@@ -765,12 +774,14 @@ Y ≈ 440,000 ~ 465,000  →  latitude  ≈ 37.4° ~ 37.7°
 
 파일명 순서대로 적용:
 
-| 파일                                             | 내용                                                                                  |
-| ------------------------------------------------ | ------------------------------------------------------------------------------------- |
-| `20260506_initial_schema.sql`                    | 초기 스키마 (users, public*data, recommendation*\*, saved_courses)                    |
-| `20260507_fix_public_data_unique_constraint.sql` | 유니크 제약 컬럼 수정 (`source` → `source_dataset`)                                   |
-| `20260507_add_weather_forecasts.sql`             | `weather_forecasts` 테이블 신규                                                       |
-| `20260508_users_schema_and_course_snapshot.sql`  | `users`에 vibes/budget/role 추가, recommendation_requests에 course snapshot 컬럼 추가 |
-| `20260508_users_add_oauth.sql`                   | `users`에 provider/oauth_id 추가, password_hash nullable 변경                         |
-| `20260508_add_living_population_stats.sql`       | `living_population_stats` 테이블 신규                                                 |
-| `20260508_add_refresh_token_blacklist.sql`       | `refresh_token_blacklist` 테이블 신규                                                 |
+| 파일                                                     | 내용                                                                                  |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `20260506_initial_schema.sql`                            | 초기 스키마 (users, public*data, recommendation*\*, saved_courses)                    |
+| `20260507_fix_public_data_unique_constraint.sql`         | 유니크 제약 컬럼 수정 (`source` → `source_dataset`)                                   |
+| `20260507_add_weather_forecasts.sql`                     | `weather_forecasts` 테이블 신규                                                       |
+| `20260508_users_schema_and_course_snapshot.sql`          | `users`에 vibes/budget/role 추가, recommendation_requests에 course snapshot 컬럼 추가 |
+| `20260508_users_add_oauth.sql`                           | `users`에 provider/oauth_id 추가, password_hash nullable 변경                         |
+| `20260508_add_living_population_stats.sql`               | `living_population_stats` 테이블 신규                                                 |
+| `20260508_add_refresh_token_blacklist.sql`               | `refresh_token_blacklist` 테이블 신규                                                 |
+| `20260819_optimize_recommendation_candidate_indexes.sql` | 추천 검색 taxonomy·정렬 인덱스 추가                                                   |
+| `20260820_normalize_public_data_search.sql`              | 자치구·검색 문서 정규화, 유지 trigger와 검색 인덱스 추가                              |

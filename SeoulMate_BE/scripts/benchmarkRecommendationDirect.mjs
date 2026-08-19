@@ -81,6 +81,7 @@ HTTP 서버 없이 로컬 PostgreSQL과 compiled LangGraph를 직접 호출한 �
 | 지역 alias 일치율 | ${summary.regionAliasMatchPct}% |
 | fallback route 사용률 | ${summary.routeFallbackRatePct}% |
 | 평균 후보 수 | ${summary.averageCandidateCount}개 |
+| 평균 후보 데이터셋 수 | ${summary.averageCandidateDatasetCount}개 |
 | 처리시간 평균 | ${summary.latencyMs.average}ms |
 | 처리시간 p50 | ${summary.latencyMs.p50}ms |
 | 처리시간 p95 | ${summary.latencyMs.p95}ms |
@@ -169,6 +170,9 @@ const main = async () => {
         validationErrors: state?.validation?.errors ?? [],
         validationWarnings: state?.validation?.warnings ?? [],
         candidateCount: state?.candidatePlaces?.length ?? 0,
+        candidateDatasetCount: new Set(
+          (state?.candidatePlaces ?? []).map((place) => place.sourceDataset).filter(Boolean)
+        ).size,
         placeCount: places.length,
         estimatedBudget: state?.course?.estimatedBudget ?? null,
         totalDurationMinute: totalDuration,
@@ -217,6 +221,12 @@ const main = async () => {
       averageCandidateCount: Number(
         (
           results.reduce((sumValue, result) => sumValue + result.candidateCount, 0) / results.length
+        ).toFixed(2)
+      ),
+      averageCandidateDatasetCount: Number(
+        (
+          results.reduce((sumValue, result) => sumValue + result.candidateDatasetCount, 0) /
+          results.length
         ).toFixed(2)
       ),
       latencyMs: {

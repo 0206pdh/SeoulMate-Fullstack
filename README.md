@@ -105,9 +105,10 @@ npm run benchmark:direct
 - ESLint: error 0건
 - 서버 없는 Direct LangGraph benchmark: **20/20 성공**, validation·예산·시간·DB 실재성·추천 좌표·지역 alias 일치율 **모두 100%**
 - 로컬 PostgreSQL 데이터: **172,821개 장소 / 9개 데이터셋**, category 정규화율 **100%**, 좌표 보유율 **98.84%**
-- 최적화 후 20개 시나리오 처리시간: 평균 **1,245ms**, p50 **1,215ms**, p95 **1,415ms**
+- 최적화 후 20개 시나리오 처리시간: 평균 **1,195ms**, p50 **1,179ms**, p95 **1,259ms**
 - warm-up 5회 + 동일 조건 40회 전후 비교: 평균 latency **27.19% 감소**, p95 **45.91% 감소**, 순차 처리량 **37.38% 증가**
-- 대표 후보 조회의 SQL 10→1개, plan scan tuple **61.58% 감소** (`EXPLAIN ANALYZE BUFFERS`)
+- 지역·검색 컬럼 정규화율 **99.93% / 100%**, quota 기반 2단계 후보 조회 적용
+- 대표 후보 조회의 SQL 10→1개, plan scan tuple **97.51%**, DB 실행시간 **95.63% 감소**
 - 재현 가능한 원본 결과: [`direct-local.json`](SeoulMate_BE/reports/benchmark/direct-local.json), [`direct-local.md`](SeoulMate_BE/reports/benchmark/direct-local.md)
 
 지표 계산식과 실행 조건은 [정량 검증 문서](SeoulMate_BE/docs/BENCHMARK.md)를 참고하세요.

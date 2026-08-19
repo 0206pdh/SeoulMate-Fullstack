@@ -15,9 +15,9 @@
 | DB 장소 실재성         |              **100%** | 추천 장소 ID와 `public_data` 대조  |
 | 추천 좌표 보유율       |              **100%** | 추천 결과의 위·경도                |
 | 지역 alias 일치율      |              **100%** | 동네명과 자치구 alias 포함         |
-| 처리시간               |      평균 **1,245ms** | p50 1,215ms, p95 1,415ms           |
+| 처리시간               |      평균 **1,195ms** | p50 1,179ms, p95 1,259ms           |
 
-로컬 DB에는 공공데이터 **172,821건 / 9개 데이터셋**을 적재했다. category 정규화율은 **100%**, 전체 장소 좌표 보유율은 **98.84%**다. 결과 원본은 [`direct-local.json`](../reports/benchmark/direct-local.json), 사람이 읽는 표는 [`direct-local.md`](../reports/benchmark/direct-local.md)에 보존한다.
+로컬 DB에는 공공데이터 **172,821건 / 9개 데이터셋**을 적재했다. category 정규화율은 **100%**, 자치구 정규화율은 **99.93%**, 검색 문서 생성률은 **100%**, 전체 장소 좌표 보유율은 **98.84%**다. 결과 원본은 [`direct-local.json`](../reports/benchmark/direct-local.json), 사람이 읽는 표는 [`direct-local.md`](../reports/benchmark/direct-local.md)에 보존한다.
 
 ## 서버 없이 재현하기
 
@@ -109,7 +109,7 @@ $env:API_BASE_URL = "https://api.seoulmate.my/api"
 npm run benchmark:recommendation
 ```
 
-이 runner는 인증, Express, Nginx, 네트워크, 실제 외부 provider 지연까지 포함한다. 현재 운영 EC2와 private RDS tunnel에 연결할 수 없어 운영 E2E 수치는 보류했다. Direct benchmark의 1.245초를 운영 API latency로 해석하면 안 된다. 성능 최적화 전후 조건과 노드별 결과는 [PERFORMANCE.md](PERFORMANCE.md)에 정리했다.
+이 runner는 인증, Express, Nginx, 네트워크, 실제 외부 provider 지연까지 포함한다. 현재 운영 EC2와 private RDS tunnel에 연결할 수 없어 운영 E2E 수치는 보류했다. Direct benchmark의 1.195초를 운영 API latency로 해석하면 안 된다. 성능 최적화 전후 조건과 노드별 결과는 [PERFORMANCE.md](PERFORMANCE.md)에 정리했다.
 
 ## 해석상의 한계
 
